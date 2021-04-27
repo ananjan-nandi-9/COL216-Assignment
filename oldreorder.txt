@@ -1,0 +1,45 @@
+while (!requests.empty()) {
+                        pair<vector<string>, vector<int>> temp = requests[0];
+                        requests.pop_front();
+                        executing = 1;
+                        line = dramexecute(temp.first, line, temp.second[0], temp.second[1], temp.second[2]);
+            deque<pair<vector<string>, vector<int>>>req1;
+            map<string,bool> dup;
+            sort(requests.begin(),requests.end(),comp);
+            for (auto ii : requests){
+                    vector<string> temp=dep[ii.first[0]];
+                    if (!ii.second[2] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
+                            continue;
+                    }
+                    if (ii.second[2]==1){
+                            if (dup[ii.first[1]]==0){
+                                    dup[ii.first[1]]=1;
+                                    req1.push_back(ii);
+                                    dup[ii.first[0]]=0;
+                            } else {
+                                    continue;
+                            }
+                    } else {
+                            if (dup[ii.first[0]]==0){
+                                dup[ii.first[0]]=1;
+                                req1.push_back(ii);
+                                dup[ii.first[1]]=0;
+                            } else {
+                                    continue;
+                            }
+                    }
+            }
+            requests=req1;
+            reverse(requests.begin(),requests.end());
+            req1.clear();
+            for (auto ii : requests)
+            {
+                if (ii.second[0] == row_buffer) req1.push_back(ii);
+            }
+            for (auto ii : requests)
+            {
+                if (ii.second[0] != row_buffer) req1.push_back(ii);
+            }
+            requests = req1;
+}
+
