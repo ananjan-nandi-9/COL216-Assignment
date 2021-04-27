@@ -623,11 +623,13 @@ void execute() //changed
 		line[i]++;
 		cout << i << " " << com << '\n';
             } else if (todo == "lw") {
+		if (requests.size()>=16) continue;
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
 		line[i]++;
 		cout << i << " " << com << '\n';
             } else {
+		if (requests.size()>=16) continue;
                 line[i] = executesw(v, line, i);
 		line[i]++;
 		cout << i << " " << com << '\n';
