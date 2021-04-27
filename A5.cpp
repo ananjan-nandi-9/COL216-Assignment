@@ -568,12 +568,12 @@ void execute() //changed
             }
 	    if (curtype==0){
                         cout << "Executing READ" << '\n';
-           	} else if (curtype==1){
+           } else if (curtype==1){
                         cout << "Executing WRITE" << '\n';
-                }
+           }
         }
         for (int i = 0; i < N; ++i) {
-            if (line[i] == cur[i] || eraseTrail(command[i][line[i]]) == "" || (curtype = 0 && dramtime == 1 && curcore == i)) {
+            if (line[i] == cur[i] || eraseTrail(command[i][line[i]]) == "" || (curtype == 0 && dramtime == 1 && curcore == i)) {
                 continue;
             }
             string com = eraseTrail(command[i][line[i]]);
