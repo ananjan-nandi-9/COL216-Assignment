@@ -424,7 +424,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     v[1] = to_string(val);
     num++;
     requests.push_back({v,{i,row,column,0,num}});
-    return line[i]+1;
+    return line[i];
 }
 
 int executesw(vector < string > v, vector < int > line, int i) { //added
@@ -501,7 +501,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
             num
         }
     });
-    return line[i]+1;
+    return line[i];
 }
 
 void execute() //changed
