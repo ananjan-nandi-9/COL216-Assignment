@@ -25,6 +25,10 @@ int N, M;
 int curcycle = 0;
 int curcore = -1;
 int curtype = -1;
+string curreg = "lorem";
+int curmem = -1;
+int currow = -1;
+int curcol = -1;
 
 bool comp(pair < vector < string > , vector < int >> a, pair < vector < string > , vector < int >> b) //added
 {
@@ -307,20 +311,17 @@ void dramexecute(vector < string > v, int i, int row, int column, bool t) { //ad
             dramtime += row_delay;
             cc = 1;
             dramtime += column_delay;
-            cout << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
             row_buffer = row;
             updates++;
         } else if (row_buffer == row) {
             cc = 1;
             dramtime += column_delay;
-            cout << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
         } else {
             rc = 2;
             dramtime += row_delay;
             dramtime += row_delay;
             cc = 1;
             dramtime += column_delay;
-            cout << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
             row_buffer = row;
             updates++;
         }
@@ -332,20 +333,17 @@ void dramexecute(vector < string > v, int i, int row, int column, bool t) { //ad
             dramtime += row_delay;
             cc = 1;
             dramtime += column_delay;
-            cout << val << " to " << val + 3 << " " << get_hexa(reg[i][v[0]]) << '\n';
             row_buffer = row;
             updates++;
         } else if (row_buffer == row) {
             cc = 1;
             dramtime += column_delay;
-            cout << val << " to " << val + 3 << " " << get_hexa(reg[i][v[0]]) << '\n';
         } else {
             rc = 2;
             dramtime += row_delay;
             dramtime += row_delay;
             cc = 1;
             dramtime += column_delay;
-            cout << val << " to " << val + 3 << " " << get_hexa(reg[i][v[0]]) << '\n';
             row_buffer = row;
             updates++;
         }
@@ -397,7 +395,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
             }
             int offset = str2int(v[1].substr(0, curr), line[i]);
             int val = offset + reg[i][temp];
-            if (val > pow(2, 19) || val < 0) {
+            if (val > pow(2, 20) / N || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
                 exit(0);
             }
@@ -411,7 +409,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2int(temp, line[i]) > pow(2, 19) || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
+        if (str2int(temp, line[i]) > pow(2, 20) / N || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
             exit(0);
         }
@@ -465,7 +463,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
             }
             int offset = str2int(v[1].substr(0, curr), line[i]);
             int val = offset + reg[i][temp];
-            if (val > pow(2, 19) || val < 0) {
+            if (val > pow(2, 20) / N || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
                 exit(0);
             }
@@ -479,7 +477,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2int(temp, line[i]) > pow(2, 19) || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
+        if (str2int(temp, line[i]) > pow(2, 20) / N || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
             exit(0);
         }
@@ -509,6 +507,7 @@ void execute() //changed
     vector < int > line(N, 0);
     while (sclock < M) {
         sclock++;
+	cout << '\n';
 	cout << "Clock Cycle : " << sclock << '\n';
         if (dramtime == 0) {
             if (!requests.empty()) {
@@ -518,12 +517,16 @@ void execute() //changed
                 reg_use[temp.second[0]][temp.first[0]]--;
                 curcycle = 0;
                 curcore = temp.second[0];
+		currow = temp.second[1];
+		curcol = temp.second[2];
                 curtype = temp.second[3];
+		curreg = temp.first[0];
+		curmem = 1024*temp.second[1]+temp.second[2];
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
                 if (curtype==0){
-                    cout << "Started executing READ" << '\n';
+                    cout << "Started executing READ to " << curreg << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 } else {
-                    cout << "Started executing WRITE" << '\n';
+                    cout << "Started executing WRITE from " << curreg << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 }
                 vector<map<string,bool>>dup(N);
                 deque<pair<vector<string>, vector<int>>>req1;
@@ -554,17 +557,33 @@ void execute() //changed
                     }
                 }
                 requests=req1;
-	            reverse(requests.begin(),requests.end());
-	            req1.clear();
-                // dram reorder operations
+	        reverse(requests.begin(),requests.end());
+	        req1.clear();
             } else {
 		cout << "DRAM Idle" << '\n';
+		curreg = "lorem";
                 curcore = -1;
                 executing = 0;
                 curcycle = 0;
 		curtype=-1;
+		curmem=-1;
+		currow=-1;
+		curcol=-1;
             }
         } else {
+	    if (dramtime==1){
+		    if (curtype==0){
+                            cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
+                    } else {
+                            cout << curmem << " to " << curmem + 3 << " " << get_hexa(reg[curcore][curreg]) << '\n';
+                    }
+	    } else {
+		    if (curtype==0){
+			    cout << "Executing READ to " << curreg << " from row " << currow << " column " << curcol << '\n';
+                    } else {
+			    cout << "Executing WRITE from " << curreg << " to row " << currow << " column " << curcol << '\n';
+                    }
+	    }
             dramtime--;
             curcycle++;
             if (rc) {
@@ -576,14 +595,11 @@ void execute() //changed
                     cc--;
                 }
             }
-	    if (curtype==0){
-                        cout << "Executing READ" << '\n';
-           } else if (curtype==1){
-                        cout << "Executing WRITE" << '\n';
-           }
         }
         for (int i = 0; i < N; ++i) {
+	    cout << "Core: " << i << '\n';
             if (line[i] == cur[i] || eraseTrail(command[i][line[i]]) == "" || (curtype == 0 && dramtime == 1 && curcore == i)) {
+		cout << "Core Idle" << '\n';
                 continue;
             }
             string com = eraseTrail(command[i][line[i]]);
@@ -598,51 +614,79 @@ void execute() //changed
             }
             cnt[todo]++;
             if (todo == "add") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 executeadd(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else if (todo == "addi") {
-                if (executing && (reg_use[i][v[1]])) continue;
+                if (executing && (reg_use[i][v[1]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 executeaddi(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else if (todo == "sub") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 executesub(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else if (todo == "mul") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 executemul(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else if (todo == "beq") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 line[i] = executebeq(v, line, i);
-		cout << i << " " << com << '\n';
             } else if (todo == "bne") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 line[i] = executebne(v, line, i);
-		cout << i << " " << com << '\n';
             } else if (todo == "j") {
+		cout << com << '\n';
                 line[i] = executej(v, line, i);
             } else if (todo == "slt") {
-                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) continue;
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 executeslt(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else if (todo == "lw") {
-		if (requests.size()>=16) continue;
+		if (requests.size()>=16) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             } else {
-		if (requests.size()>=16) continue;
+		if (requests.size()>=16) {
+			cout << "Core Idle" << '\n';
+			continue;
+		}
+		cout << com << '\n';
                 line[i] = executesw(v, line, i);
 		line[i]++;
-		cout << i << " " << com << '\n';
             }
         }
     }
