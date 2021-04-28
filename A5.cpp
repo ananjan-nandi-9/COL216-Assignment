@@ -4,13 +4,17 @@ using namespace std;
 vector < map < string, int >> reg;
 map < string, int > cnt;
 vector < map < int, string >> command;
-vector < int > cur;
+vector < int > cur, order;
 int num = 0;
 int sclock = 0;
 map < string, int > res_reg, res_wrd;
 map < int, char > hexa;
 vector < map < string, int >> labels, reg_use;
-deque < pair < vector < string > , vector < int >>> requests; //dram request queue
+deque < pair < vector < string > , vector < int >>> requests[8]; //dram request queue
+vector<string>isblock(8,"-");
+vector<float>metric(8);
+map<pair<int,string>,int>blockcnt;
+int curexc=-1;
 string dram[1024][1024];
 int row_buffer = -1;
 int updates = 0;
@@ -421,7 +425,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     reg[i][v[0]] = str2int(dram[row][column], line[i]);
     v[1] = to_string(val);
     num++;
-    requests.push_back({v,{i,row,column,0,num}});
+    requests[i].push_back({v,{i,row,column,0,num}});
     return line[i];
 }
 
@@ -489,16 +493,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
     num++;
-    requests.push_back({
-        v,
-        {
-            i,
-            row,
-            column,
-            1,
-            num
-        }
-    });
+    requests[i].push_back({v,{i,row,column,1,num}});
     return line[i];
 }
 
@@ -507,99 +502,131 @@ void execute() //changed
     vector < int > line(N, 0);
     while (sclock < M) {
         sclock++;
-	cout << '\n';
-	cout << "Clock Cycle : " << sclock << '\n';
+        cout << '\n';
+        cout << "Clock Cycle : " << sclock << '\n';
         if (dramtime == 0) {
-            if (!requests.empty()) {
-                pair < vector < string > , vector < int >> temp = requests[0];
-                requests.pop_front();
+            bool bbc=false;
+            for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
+            if (bbc) {
+                if(curexc==-1)
+                {
+                    for(int cc=0;cc<N;++cc)
+                    {
+                        int ccur=order[cc];
+                        if(isblock[ccur]!="-")
+                        {
+                            curexc=ccur;
+                            break;
+                        }
+                    }
+                }
+                if(curexc==-1)
+                {
+                    int nowsize=0;
+                    for(int cc=0;cc<1;++cc)
+                    {
+                        if(nowsize<(requests[cc].size()))
+                        {
+                            nowsize=(requests[cc].size());
+                            curexc=cc;
+                        }
+                    }
+                }
+                pair < vector < string > , vector < int >> temp = requests[curexc][0]; 
+                requests[curexc].pop_front();   
                 executing = 1;
                 reg_use[temp.second[0]][temp.first[0]]--;
                 curcycle = 0;
                 curcore = temp.second[0];
-		currow = temp.second[1];
-		curcol = temp.second[2];
+                currow = temp.second[1];
+                curcol = temp.second[2];
                 curtype = temp.second[3];
-		curreg = temp.first[0];
-		curmem = 1024*temp.second[1]+temp.second[2];
+                curreg = temp.first[0];
+                curmem = 1024*temp.second[1]+temp.second[2];
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
                 if (curtype==0){
+                    blockcnt[{curexc,curreg}]--;
+                    if(isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
                     cout << "Started executing READ to " << curreg << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 } else {
                     cout << "Started executing WRITE from " << curreg << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 }
-                vector<map<string,bool>>dup(N);
-                deque<pair<vector<string>, vector<int>>>req1;
-                sort(requests.begin(),requests.end(),comp);
-                for(auto ii:requests)
+                for(int ii=0;ii<N;++ii) sort(requests[ii].begin(),requests[ii].end(),comp);
+                for(int ww=0;ww<N;++ww)
                 {
-                    int ccore=ii.second[0];
-                    vector<string> temp=dep[ccore][ii.first[0]];
-                    if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
-                            continue;
-                    }
-                    if (ii.second[3]==1){
-                        if (dup[ccore][ii.first[1]]==0){
-                            dup[ccore][ii.first[1]]=1;
-                            req1.push_back(ii);
-                            dup[ccore][ii.first[0]]=0;
-                        } else {
-                            continue;
+                    vector<map<string,bool>>dup(N);
+                    deque<pair<vector<string>, vector<int>>>req1;
+                    for(auto ii:requests[ww])
+                    {
+                        int ccore=ii.second[0];
+                        vector<string> temp=dep[ccore][ii.first[0]];
+                        if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
+                                continue;
                         }
-                    } else {
-                        if (dup[ccore][ii.first[0]]==0){
-                            dup[ccore][ii.first[0]]=1;
-                            req1.push_back(ii);
-                            dup[ccore][ii.first[1]]=0;
+                        if (ii.second[3]==1){
+                            if (dup[ccore][ii.first[1]]==0){
+                                dup[ccore][ii.first[1]]=1;
+                                req1.push_back(ii);
+                                dup[ccore][ii.first[0]]=0;
+                            } else {
+                                continue;
+                            }
                         } else {
-                            continue;
+                            if (dup[ccore][ii.first[0]]==0){
+                                dup[ccore][ii.first[0]]=1;
+                                req1.push_back(ii);
+                                dup[ccore][ii.first[1]]=0;
+                            } else {
+                                continue;
+                            }
                         }
                     }
+                    requests[ww]=req1;
+                    reverse(requests[ww].begin(),requests[ww].end());
+                    req1.clear();
                 }
-                requests=req1;
-	        reverse(requests.begin(),requests.end());
-	        req1.clear();
-            } else {
-		cout << "DRAM Idle" << '\n';
-		curreg = "lorem";
-                curcore = -1;
-                executing = 0;
-                curcycle = 0;
-		curtype=-1;
-		curmem=-1;
-		currow=-1;
-		curcol=-1;
+            } 
+            else {
+                cout << "DRAM Idle" << '\n';
+                curreg = "lorem";
+                        curcore = -1;
+                        executing = 0;
+                        curcycle = 0;
+                curtype=-1;
+                curmem=-1;
+                currow=-1;
+                curcol=-1;
             }
-        } else {
-	    if (dramtime==1){
-		    if (curtype==0){
-                            cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
-                    } else {
-                            cout << curmem << " to " << curmem + 3 << " " << get_hexa(reg[curcore][curreg]) << '\n';
-                    }
-	    } else {
-		    if (curtype==0){
-			    cout << "Executing READ to " << curreg << " from row " << currow << " column " << curcol << '\n';
-                    } else {
-			    cout << "Executing WRITE from " << curreg << " to row " << currow << " column " << curcol << '\n';
-                    }
-	    }
+        } 
+        else {
+            curexc=-1;
+            if (dramtime==1){
+                if (curtype==0)
+                    cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
+                else 
+                    cout << curmem << " to " << curmem + 3 << " " << get_hexa(reg[curcore][curreg]) << '\n';
+            } 
+            else {
+                if (curtype==0)
+                    cout << "Executing READ to " << curreg << " from row " << currow << " column " << curcol << '\n';
+                else
+                    cout << "Executing WRITE from " << curreg << " to row " << currow << " column " << curcol << '\n';
+            }
             dramtime--;
             curcycle++;
             if (rc) {
-                if (curcycle == row_delay) {
+                if (curcycle == row_delay) 
                     rc--;
-                }
-            } else if (cc) {
-                if (curcycle == column_delay) {
+            } 
+            else if (cc) {
+                if (curcycle == column_delay)
                     cc--;
-                }
             }
         }
         for (int i = 0; i < N; ++i) {
-	    cout << "Core: " << i << '\n';
+            cout << "Core: " << i << '\n';
             if (line[i] == cur[i] || eraseTrail(command[i][line[i]]) == "" || (curtype == 0 && dramtime == 1 && curcore == i)) {
-		cout << "Core Idle" << '\n';
+                cout << "Core Idle" << '\n';
                 continue;
             }
             string com = eraseTrail(command[i][line[i]]);
@@ -616,6 +643,7 @@ void execute() //changed
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
+            if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			continue;
 		}
 		cout << com << '\n';
@@ -624,6 +652,7 @@ void execute() //changed
             } else if (todo == "addi") {
                 if (executing && (reg_use[i][v[1]])) {
 			cout << "Core Idle" << '\n';
+            isblock[i]=v[1];
 			continue;
 		}
 		cout << com << '\n';
@@ -632,6 +661,7 @@ void execute() //changed
             } else if (todo == "sub") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
+            if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			continue;
 		}
 		cout << com << '\n';
@@ -639,6 +669,7 @@ void execute() //changed
 		line[i]++;
             } else if (todo == "mul") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                    if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -648,12 +679,14 @@ void execute() //changed
             } else if (todo == "beq") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
 			cout << "Core Idle" << '\n';
+            if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[0];
 			continue;
 		}
 		cout << com << '\n';
                 line[i] = executebeq(v, line, i);
             } else if (todo == "bne") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
+                if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[0];
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -664,6 +697,7 @@ void execute() //changed
                 line[i] = executej(v, line, i);
             } else if (todo == "slt") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                    if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -671,16 +705,17 @@ void execute() //changed
                 executeslt(v, line, i);
 		line[i]++;
             } else if (todo == "lw") {
-		if (requests.size()>=16) {
+		if (requests[i].size()>=8) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
+        blockcnt[{i,v[0]}]++;
 		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
 		line[i]++;
             } else {
-		if (requests.size()>=16) {
+		if (requests[i].size()>=8) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -691,10 +726,14 @@ void execute() //changed
         }
     }
 }
-
+bool decide(int a, int b)
+{
+    return metric[a]>metric[b];
+}
 int main(int argc, char ** argv) { //changed
     N = str2int(argv[1], 0);
     M = str2int(argv[2], 0);
+    assert(N<=8);
     row_delay = str2int(argv[3], 0);
     column_delay = str2int(argv[4], 0);
     vector < string > filename;
@@ -710,10 +749,13 @@ int main(int argc, char ** argv) { //changed
         map < string, vector < string >> d;
         map < string, int > r;
         cur.push_back(0);
+        int ins=0, lsins=0;
         while (getline(input_file, line)) {
             line = eraseTrail(line);
             if (line != "" && line[line.size() - 1] != ':') {
+                ++ins;
                 temp[cur[i]] = line;
+                if((line[0]=='l' || line[0]=='s') && line[1]=='w') ++lsins;
                 ++cur[i];
             }
             if (line[line.size() - 1] == ':') {
@@ -724,6 +766,7 @@ int main(int argc, char ** argv) { //changed
                 l[line.substr(0, line.size() - 1)] = cur[i];
             }
         }
+        metric[i]= ((float)ins)/lsins;
         temp[cur[i]] = "";
         cur[i]++;
         d["$zero"] = vector < string > ({"$zero"});
@@ -762,6 +805,8 @@ int main(int argc, char ** argv) { //changed
         cnt[i.first] = 0;
     for (int i = 0; i < 10; ++i) hexa[i] = ('0' + i);
     for (int i = 10; i < 16; ++i) hexa[i] = ('A' + (i - 10));
+    for(int i=0;i<N;++i) order.push_back(i);
+    sort(order.begin(),order.end(),decide);
     execute();
     get();
 }
