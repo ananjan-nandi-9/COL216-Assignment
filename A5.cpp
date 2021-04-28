@@ -1,15 +1,3 @@
-#include <iostream>
-
-#include <map>
-
-#include <string>
-
-#include <fstream>
-
-#include <vector>
-
-#include <sstream>
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -435,16 +423,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     reg[i][v[0]] = str2int(dram[row][column], line[i]);
     v[1] = to_string(val);
     num++;
-    requests.push_back({
-        v,
-        {
-            i,
-            row,
-            column,
-            0,
-            num
-        }
-    });
+    requests.push_back({v,{i,row,column,0,num}});
     return line[i]+1;
 }
 
@@ -541,11 +520,42 @@ void execute() //changed
                 curcore = temp.second[0];
                 curtype = temp.second[3];
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
-		if (curtype==0){
-			cout << "Started executing READ" << '\n';
-		} else {
-			cout << "Started executing WRITE" << '\n';
-		}
+                if (curtype==0){
+                    cout << "Started executing READ" << '\n';
+                } else {
+                    cout << "Started executing WRITE" << '\n';
+                }
+                vector<map<string,bool>>dup(N);
+                deque<pair<vector<string>, vector<int>>>req1;
+                sort(requests.begin(),requests.end(),comp);
+                for(auto ii:requests)
+                {
+                    int ccore=ii.second[0];
+                    vector<string> temp=dep[ccore][ii.first[0]];
+                    if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
+                            continue;
+                    }
+                    if (ii.second[3]==1){
+                        if (dup[ccore][ii.first[1]]==0){
+                            dup[ccore][ii.first[1]]=1;
+                            req1.push_back(ii);
+                            dup[ccore][ii.first[0]]=0;
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        if (dup[ccore][ii.first[0]]==0){
+                            dup[ccore][ii.first[0]]=1;
+                            req1.push_back(ii);
+                            dup[ccore][ii.first[1]]=0;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+                requests=req1;
+	            reverse(requests.begin(),requests.end());
+	            req1.clear();
                 // dram reorder operations
             } else {
 		cout << "DRAM Idle" << '\n';
