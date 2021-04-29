@@ -505,8 +505,8 @@ void execute() //changed
         cout << '\n';
         cout << "Clock Cycle : " << sclock << '\n';
         if (dramtime == 0) {
-            if(curtype==0) reg_use[curcore][curreg]--;
-            if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
+            if(curtype==0 && executing) reg_use[curcore][curreg]--;
+            if(curexc>-1 && curtype==0 && executing) blockcnt[{curexc,curreg}]--;
             bool bbc=false;
             for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
             if (bbc) {
