@@ -426,6 +426,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     v[1] = to_string(val);
     num++;
     requests[i].push_back({v,{i,row,column,0,num}});
+    cout << "Issued READ to " << v[0] << " on core " << i << " from row " << row << " column " << column << '\n';
     return line[i];
 }
 
@@ -494,6 +495,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     v[1] = to_string(val);
     num++;
     requests[i].push_back({v,{i,row,column,1,num}});
+    cout << "Issued WRITE from " << v[0] << " on core " << i << " to row " << row << " column " << column << '\n';
     return line[i];
 }
 
@@ -547,9 +549,9 @@ void execute() //changed
                 if (curtype==0){
                     blockcnt[{curexc,curreg}]--;
                     if(isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
-                    cout << "Started executing READ to " << curreg << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
+                    cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 } else {
-                    cout << "Started executing WRITE from " << curreg << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
+                    cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 }
                 for(int ii=0;ii<N;++ii) sort(requests[ii].begin(),requests[ii].end(),comp);
                 for(int ww=0;ww<N;++ww)
@@ -561,6 +563,7 @@ void execute() //changed
                         int ccore=ii.second[0];
                         vector<string> temp=dep[ccore][ii.first[0]];
                         if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
+				blockcnt[{ii.second[0],ii.first[0]}];
                                 continue;
                         }
                         if (ii.second[3]==1){
@@ -577,6 +580,7 @@ void execute() //changed
                                 req1.push_back(ii);
                                 dup[ccore][ii.first[1]]=0;
                             } else {
+				blockcnt[{ii.second[0],ii.first[0]}];
                                 continue;
                             }
                         }
@@ -608,9 +612,9 @@ void execute() //changed
             } 
             else {
                 if (curtype==0)
-                    cout << "Executing READ to " << curreg << " from row " << currow << " column " << curcol << '\n';
+                    cout << "Executing READ to " << curreg << " on core " << curcore << " from row " << currow << " column " << curcol << '\n';
                 else
-                    cout << "Executing WRITE from " << curreg << " to row " << currow << " column " << curcol << '\n';
+                    cout << "Executing WRITE from " << curreg << " on core " << curcore << " to row " << currow << " column " << curcol << '\n';
             }
             dramtime--;
             curcycle++;

@@ -1,0 +1,7 @@
+main:
+	lw $s0,1000($zero)
+	addi $s1,$s1,1
+	add $s2,$s2,$s1
+	lw $s1,2000($zero)
+	lw $s2,2000($zero)
+	lw $s3,2000($zero)
