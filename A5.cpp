@@ -14,7 +14,7 @@ deque < pair < vector < string > , vector < int >>> requests[8]; //dram request 
 vector<string>isblock(8,"-");
 vector<float>metric(8);
 map<pair<int,string>,int>blockcnt;
-int curexc=-1;
+int curexc=-1, rowleft=-1;
 string dram[1024][1024];
 int row_buffer = -1;
 int updates = 0;
@@ -512,6 +512,7 @@ void execute() //changed
             bool bbc=false;
             for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
             if (bbc) {
+                if(rowleft==0) curexc=-1;
                 if(curexc==-1)
                 {
                     for(int cc=0;cc<N;++cc)
@@ -538,7 +539,24 @@ void execute() //changed
                         }
                     }
                 }
-                pair < vector < string > , vector < int >> temp = requests[curexc][0]; 
+                // reorder below
+                deque < pair < vector < string > , vector < int >>>req1, req2;
+                int takerow=requests[curexc][0].second[1];
+                for(auto ii:requests[curexc])
+                {
+                    if(ii.second[1]==takerow)
+                        req1.push_back(ii);
+                    else 
+                        req2.push_back(ii);
+                }
+                for(int ii=0;ii<requests[curexc].size();++ii)
+                {
+                    if(ii<req1.size()) requests[curexc][ii]=req1[ii];
+                    else requests[curexc][ii]=req2[ii-req1.size()];
+                }
+                // reorder above
+                pair < vector < string > , vector < int >> temp = requests[curexc][0];
+                --rowleft; 
                 requests[curexc].pop_front();   
                 executing = 1;
                 
@@ -555,8 +573,7 @@ void execute() //changed
                 } else {
                     cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 }
-                for(int ii=0;ii<N;++ii) sort(requests[ii].begin(),requests[ii].end(),comp);
-                for(int ww=0;ww<N;++ww)
+                /*for(int ww=0;ww<N;++ww)
                 {
                     vector<map<string,bool>>dup(N);
                     deque<pair<vector<string>, vector<int>>>req1;
@@ -594,7 +611,7 @@ void execute() //changed
                     requests[ww]=req1;
                     reverse(requests[ww].begin(),requests[ww].end());
                     req1.clear();
-                }
+                }*/
             } 
             else {
                 cout << "DRAM Idle" << '\n';
