@@ -150,7 +150,6 @@ void executeadd(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] + reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
-    cnt["add"]++;
 }
 
 void executeaddi(vector < string > v, vector < int > line, int i) {
@@ -171,7 +170,6 @@ void executeaddi(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] + x;
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
-    cnt["addi"]++;
 }
 
 void executesub(vector < string > v, vector < int > line, int i) {
@@ -193,7 +191,6 @@ void executesub(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] - reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
-    cnt["sub"]++;
 }
 
 void executemul(vector < string > v, vector < int > line, int i) {
@@ -215,7 +212,6 @@ void executemul(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] * reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
-    cnt["mul"]++;
 }
 
 int executebeq(vector < string > v, vector < int > line, int i) {
@@ -239,7 +235,6 @@ int executebeq(vector < string > v, vector < int > line, int i) {
         return x;
     }
     num++;
-    cnt["beq"]++;
     return line[i]+1;
 }
 
@@ -264,7 +259,6 @@ int executebne(vector < string > v, vector < int > line, int i) {
         return x;
     }
     num++;
-    cnt["bne"]++;
     return line[i]+1;
 }
 
@@ -287,7 +281,6 @@ int executej(vector < string > v, vector < int > line, int i) {
         exit(0);
     }
     num++;
-    cnt["j"]++;
     return x;
 }
 
@@ -313,7 +306,6 @@ void executeslt(vector < string > v, vector < int > line, int i) {
         reg[i][v[0]] = 0;
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
-    cnt["slt"]++;
 }
 
 void dramexecute(vector < string > v, int i, int row, int column, bool t) { //added
@@ -372,9 +364,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         cout << "Cannot manipulate $0: " << line[i] << '\n';
         exit(0);
     }
-    dep[i][v[0]] = vector < string > ({
-        v[0]
-    });
+    dep[i][v[0]] = vector < string > ({v[0]});
     string temp = v[1];
     eraseTrail(temp);
     int curr = 0;
@@ -433,7 +423,6 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     reg[i][v[0]] = str2int(dram[row][column], line[i]);
     v[1] = to_string(val);
     num++;
-    cnt["lw"]++;
     requests[i].push_back({v,{i,row,column,0,num}});
     cout << "Issued READ to " << v[0] << " on core " << i << " from row " << row << " column " << column << '\n';
     return line[i];
@@ -503,7 +492,6 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
     num++;
-    cnt["sw"]++;
     requests[i].push_back({v,{i,row,column,1,num}});
     cout << "Issued WRITE from " << v[0] << " on core " << i << " to row " << row << " column " << column << '\n';
     return line[i];
@@ -517,9 +505,12 @@ void execute() //changed
         cout << '\n';
         cout << "Clock Cycle : " << sclock << '\n';
         if (dramtime == 0) {
+            if(curtype==0) reg_use[curcore][curreg]--;
+            if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
             bool bbc=false;
             for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
             if (bbc) {
+                if(curexc>-1 && requests[curexc].size()==0) curexc=-1;
                 if(curexc==-1)
                 {
                     for(int cc=0;cc<N;++cc)
@@ -547,7 +538,7 @@ void execute() //changed
                 pair < vector < string > , vector < int >> temp = requests[curexc][0]; 
                 requests[curexc].pop_front();   
                 executing = 1;
-                reg_use[temp.second[0]][temp.first[0]]--;
+                
                 curcycle = 0;
                 curcore = temp.second[0];
                 currow = temp.second[1];
@@ -557,7 +548,6 @@ void execute() //changed
                 curmem = 1024*temp.second[1]+temp.second[2];
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
                 if (curtype==0){
-                    blockcnt[{curexc,curreg}]--;
                     if(isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
                     cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 } else {
@@ -573,8 +563,9 @@ void execute() //changed
                         int ccore=ii.second[0];
                         vector<string> temp=dep[ccore][ii.first[0]];
                         if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
-				blockcnt[{ii.second[0],ii.first[0]}];
-                                continue;
+				            if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
+                            if(curtype==0) reg_use[curcore][curreg]--;
+                            continue;
                         }
                         if (ii.second[3]==1){
                             if (dup[ccore][ii.first[1]]==0){
@@ -590,7 +581,8 @@ void execute() //changed
                                 req1.push_back(ii);
                                 dup[ccore][ii.first[1]]=0;
                             } else {
-				blockcnt[{ii.second[0],ii.first[0]}];
+				                if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
+                                if(curtype==0) reg_use[curcore][curreg]--;
                                 continue;
                             }
                         }
@@ -653,6 +645,7 @@ void execute() //changed
                 cout << "Invalid instruction: " << line[i] << '\n';
                 exit(0);
             }
+            cnt[todo]++;
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
@@ -668,6 +661,7 @@ void execute() //changed
             isblock[i]=v[1];
 			continue;
 		}
+        cout<<blockcnt[{0,"$s0"}]<<'\n';
 		cout << com << '\n';
                 executeaddi(v, line, i);
 		line[i]++;
@@ -723,6 +717,7 @@ void execute() //changed
 			continue;
 		}
         blockcnt[{i,v[0]}]++;
+        //cout<<v[0]<<' '<<v[0].size()<<'\n';
 		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
