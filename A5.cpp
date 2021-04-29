@@ -505,17 +505,18 @@ void execute() //changed
         cout << '\n';
         cout << "Clock Cycle : " << sclock << '\n';
         if (dramtime == 0) {
-            if(curtype==0 && executing) reg_use[curcore][curreg]--;
-            if(curexc>-1 && curtype==0 && executing) blockcnt[{curexc,curreg}]--;
+            if(curexc>-1 && curtype==0) reg_use[curcore][curreg]--;
+            if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
+            if(curexc>-1 && isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
+            if(curexc>-1 && requests[curexc].size()==0) curexc=-1;
             bool bbc=false;
             for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
             if (bbc) {
-                if(curexc>-1 && requests[curexc].size()==0) curexc=-1;
                 if(curexc==-1)
                 {
                     for(int cc=0;cc<N;++cc)
                     {
-                        if(requests[cc].size()==0) continue;
+                        //if(requests[cc].size()==0) continue;
                         int ccur=order[cc];
                         if(isblock[ccur]!="-")
                         {
@@ -550,7 +551,6 @@ void execute() //changed
                 curmem = 1024*temp.second[1]+temp.second[2];
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
                 if (curtype==0){
-                    if(isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
                     cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 } else {
                     cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
@@ -566,6 +566,7 @@ void execute() //changed
                         vector<string> temp=dep[ccore][ii.first[0]];
                         if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
 				            if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
+                            if(isblock[ww]!="-" && blockcnt[{curexc,isblock[ww]}]==0) isblock[ww]="-";
                             if(curtype==0) reg_use[curcore][curreg]--;
                             continue;
                         }
@@ -584,6 +585,7 @@ void execute() //changed
                                 dup[ccore][ii.first[1]]=0;
                             } else {
 				                if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
+                                if(isblock[ww]!="-" && blockcnt[{curexc,isblock[ww]}]==0) isblock[ww]="-";
                                 if(curtype==0) reg_use[curcore][curreg]--;
                                 continue;
                             }
@@ -607,7 +609,6 @@ void execute() //changed
             }
         } 
         else {
-            curexc=-1;
             if (dramtime==1){
                 if (curtype==0)
                     cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
