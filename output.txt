@@ -361,7 +361,7 @@ Core Idle
 Number of instructions: 9
 Number of row buffer updates: 3
 Number of times add was executed is: 0
-Number of times addi was executed is: 41
+Number of times addi was executed is: 4
 Number of times beq was executed is: 0
 Number of times bne was executed is: 0
 Number of times j was executed is: 0

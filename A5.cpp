@@ -150,6 +150,7 @@ void executeadd(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] + reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
+    cnt["add"]++;
 }
 
 void executeaddi(vector < string > v, vector < int > line, int i) {
@@ -170,6 +171,7 @@ void executeaddi(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] + x;
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
+    cnt["addi"]++;
 }
 
 void executesub(vector < string > v, vector < int > line, int i) {
@@ -191,6 +193,7 @@ void executesub(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] - reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
+    cnt["sub"]++;
 }
 
 void executemul(vector < string > v, vector < int > line, int i) {
@@ -212,6 +215,7 @@ void executemul(vector < string > v, vector < int > line, int i) {
     reg[i][v[0]] = reg[i][v[1]] * reg[i][v[2]];
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
+    cnt["mul"]++;
 }
 
 int executebeq(vector < string > v, vector < int > line, int i) {
@@ -235,6 +239,7 @@ int executebeq(vector < string > v, vector < int > line, int i) {
         return x;
     }
     num++;
+    cnt["beq"]++;
     return line[i]+1;
 }
 
@@ -259,6 +264,7 @@ int executebne(vector < string > v, vector < int > line, int i) {
         return x;
     }
     num++;
+    cnt["bne"]++;
     return line[i]+1;
 }
 
@@ -281,6 +287,7 @@ int executej(vector < string > v, vector < int > line, int i) {
         exit(0);
     }
     num++;
+    cnt["j"]++;
     return x;
 }
 
@@ -306,6 +313,7 @@ void executeslt(vector < string > v, vector < int > line, int i) {
         reg[i][v[0]] = 0;
     cout << i << " " << v[0] << " " << get_hexa(reg[i][v[0]]) << '\n';
     num++;
+    cnt["slt"]++;
 }
 
 void dramexecute(vector < string > v, int i, int row, int column, bool t) { //added
@@ -425,6 +433,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     reg[i][v[0]] = str2int(dram[row][column], line[i]);
     v[1] = to_string(val);
     num++;
+    cnt["lw"]++;
     requests[i].push_back({v,{i,row,column,0,num}});
     cout << "Issued READ to " << v[0] << " on core " << i << " from row " << row << " column " << column << '\n';
     return line[i];
@@ -494,6 +503,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
     num++;
+    cnt["sw"]++;
     requests[i].push_back({v,{i,row,column,1,num}});
     cout << "Issued WRITE from " << v[0] << " on core " << i << " to row " << row << " column " << column << '\n';
     return line[i];
@@ -643,7 +653,6 @@ void execute() //changed
                 cout << "Invalid instruction: " << line[i] << '\n';
                 exit(0);
             }
-            cnt[todo]++;
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
