@@ -645,7 +645,6 @@ void execute() //changed
                 cout << "Invalid instruction: " << line[i] << '\n';
                 exit(0);
             }
-            cnt[todo]++;
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
@@ -653,6 +652,7 @@ void execute() //changed
 			continue;
 		}
 		cout << com << '\n';
+		cnt[todo]++;
                 executeadd(v, line, i);
 		line[i]++;
             } else if (todo == "addi") {
@@ -661,7 +661,7 @@ void execute() //changed
             isblock[i]=v[1];
 			continue;
 		}
-        cout<<blockcnt[{0,"$s0"}]<<'\n';
+		cnt[todo]++;
 		cout << com << '\n';
                 executeaddi(v, line, i);
 		line[i]++;
@@ -671,6 +671,7 @@ void execute() //changed
             if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			continue;
 		}
+		cnt[todo]++;
 		cout << com << '\n';
                 executesub(v, line, i);
 		line[i]++;
@@ -680,6 +681,7 @@ void execute() //changed
 			cout << "Core Idle" << '\n';
 			continue;
 		}
+		cnt[todo]++;
 		cout << com << '\n';
                 executemul(v, line, i);
 		line[i]++;
@@ -689,6 +691,7 @@ void execute() //changed
             if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[0];
 			continue;
 		}
+		cnt[todo]++;
 		cout << com << '\n';
                 line[i] = executebeq(v, line, i);
             } else if (todo == "bne") {
@@ -697,9 +700,11 @@ void execute() //changed
 			cout << "Core Idle" << '\n';
 			continue;
 		}
+		cnt[todo]++;
 		cout << com << '\n';
                 line[i] = executebne(v, line, i);
             } else if (todo == "j") {
+		cnt[todo]++;
 		cout << com << '\n';
                 line[i] = executej(v, line, i);
             } else if (todo == "slt") {
@@ -708,6 +713,7 @@ void execute() //changed
 			cout << "Core Idle" << '\n';
 			continue;
 		}
+		cnt[todo]++;
 		cout << com << '\n';
                 executeslt(v, line, i);
 		line[i]++;
@@ -717,7 +723,7 @@ void execute() //changed
 			continue;
 		}
         blockcnt[{i,v[0]}]++;
-        //cout<<v[0]<<' '<<v[0].size()<<'\n';
+	cnt[todo]++;
 		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
@@ -728,6 +734,7 @@ void execute() //changed
 			continue;
 		}
 		cout << com << '\n';
+		cnt[todo]++;
                 line[i] = executesw(v, line, i);
 		line[i]++;
             }
