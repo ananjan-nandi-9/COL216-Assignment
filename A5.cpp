@@ -240,7 +240,7 @@ int executebeq(vector < string > v, vector < int > line, int i) {
     }
     num++;
     cnt["beq"]++;
-    return line[i]+1;
+    return line[i];
 }
 
 int executebne(vector < string > v, vector < int > line, int i) {
@@ -265,7 +265,7 @@ int executebne(vector < string > v, vector < int > line, int i) {
     }
     num++;
     cnt["bne"]++;
-    return line[i]+1;
+    return line[i];
 }
 
 int executej(vector < string > v, vector < int > line, int i) {

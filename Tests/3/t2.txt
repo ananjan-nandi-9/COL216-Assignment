@@ -1,0 +1,8 @@
+main:
+        addi $t0,$zero,100
+loop:
+        addi $s0,$s0,4
+        lw $t1,($s0)
+	addi $t1,$t1,1
+        addi $t0,$t0,-1
+        bne $t0,$zero,loop
