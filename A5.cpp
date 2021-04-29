@@ -515,6 +515,7 @@ void execute() //changed
                 {
                     for(int cc=0;cc<N;++cc)
                     {
+                        if(requests[cc].size()==0) continue;
                         int ccur=order[cc];
                         if(isblock[ccur]!="-")
                         {
@@ -526,8 +527,9 @@ void execute() //changed
                 if(curexc==-1)
                 {
                     int nowsize=0;
-                    for(int cc=0;cc<N;++cc)
+                    for(int dc=0;dc<N;++dc)
                     {
+                        int cc=order[dc];
                         if(nowsize<(requests[cc].size()))
                         {
                             nowsize=(requests[cc].size());
@@ -645,6 +647,7 @@ void execute() //changed
                 cout << "Invalid instruction: " << line[i] << '\n';
                 exit(0);
             }
+                
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
