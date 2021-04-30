@@ -634,45 +634,6 @@ void execute() //changed
                 } else {
                     cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
                 }
-                /*for(int ww=0;ww<N;++ww)
-                {
-                    vector<map<string,bool>>dup(N);
-                    deque<pair<vector<string>, vector<int>>>req1;
-                    for(auto ii:requests[ww])
-                    {
-                        int ccore=ii.second[0];
-                        vector<string> temp=dep[ccore][ii.first[0]];
-                        if (!ii.second[3] && find(temp.begin(),temp.end(),ii.first[0])==temp.end()){
-				            if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
-                            if(isblock[ww]!="-" && blockcnt[{curexc,isblock[ww]}]==0) isblock[ww]="-";
-                            if(curtype==0) reg_use[curcore][curreg]--;
-                            continue;
-                        }
-                        if (ii.second[3]==1){
-                            if (dup[ccore][ii.first[1]]==0){
-                                dup[ccore][ii.first[1]]=1;
-                                req1.push_back(ii);
-                                dup[ccore][ii.first[0]]=0;
-                            } else {
-                                continue;
-                            }
-                        } else {
-                            if (dup[ccore][ii.first[0]]==0){
-                                dup[ccore][ii.first[0]]=1;
-                                req1.push_back(ii);
-                                dup[ccore][ii.first[1]]=0;
-                            } else {
-				                if(curtype==0)blockcnt[{ii.second[0],ii.first[0]}]--;
-                                if(isblock[ww]!="-" && blockcnt[{curexc,isblock[ww]}]==0) isblock[ww]="-";
-                                if(curtype==0) reg_use[curcore][curreg]--;
-                                continue;
-                            }
-                        }
-                    }
-                    requests[ww]=req1;
-                    reverse(requests[ww].begin(),requests[ww].end());
-                    req1.clear();
-                }*/
             } 
             else {
                 cout << "DRAM Idle" << '\n';
@@ -804,7 +765,7 @@ void execute() //changed
                 executeslt(v, line, i);
 		line[i]++;
             } else if (todo == "lw") {
-		if (requests[i].size()>=8) {
+		if (requests[i].size()>=8 || reg_use[i][v[0]]) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
