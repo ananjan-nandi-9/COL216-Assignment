@@ -14,7 +14,7 @@ deque < pair < vector < string > , vector < int >>> requests[8]; //dram request 
 vector<string>isblock(8,"-");
 vector<float>metric(8);
 map<pair<int,string>,int>blockcnt;
-int curexc=-1, rowleft=-1;
+int curexc=-1; 
 string dram[1024][1024];
 int row_buffer = -1;
 int updates = 0;
@@ -35,6 +35,10 @@ int currow = -1;
 int curcol = -1;
 vector<int> swcnt;
 vector<bool> e;
+vector<int> mrmtime;
+int currowcnt=0;
+int switchtime=0;
+map<string,int> lwrow[8];
 
 bool comp(pair < vector < string > , vector < int >> a, pair < vector < string > , vector < int >> b) //added
 {
@@ -474,8 +478,15 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     reg[i][v[0]] = str2intc(dram[row][column], line[i], i);
     v[1] = to_string(val);
     num++;
+    lwrow[i][v[0]]=row;
     if (swcnt[i]==0 && row==currow && column==curcol) return line[i];
     requests[i].push_back({v,{i,row,column,0,num}});
+    if (currow==row) {
+	    currowcnt++;
+	    mrmtime[i]=currowcnt;
+    } else {
+	    mrmtime[i]=1;
+    }
     cout << "Issued READ to " << v[0] << " on core " << i << " from row " << row << " column " << column << '\n';
     return line[i];
 }
@@ -553,6 +564,12 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     num++;
     requests[i].push_back({v,{i,row,column,1,num}});
     swcnt[i]++;
+    if (currow==row) {
+	    currowcnt++;
+	    mrmtime[i]=currowcnt;
+    } else {
+	    mrmtime[i]=1;
+    }
     cout << "Issued WRITE from " << v[0] << " on core " << i << " to row " << row << " column " << column << '\n';
     return line[i];
 }
@@ -564,76 +581,99 @@ void execute() //changed
         sclock++;
         cout << '\n';
         cout << "Clock Cycle : " << sclock << '\n';
-        if (dramtime == 0) {
-            if(curexc>-1 && curtype==0) reg_use[curcore][curreg]--;
-            if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
-            if(curexc>-1 && isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
-            if(curexc>-1 && requests[curexc].size()==0) curexc=-1;
-            bool bbc=false;
-            for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
-            if (bbc) {
-                if(rowleft==0) curexc=-1;
-                if(curexc==-1)
-                {
-                    for(int cc=0;cc<N;++cc)
-                    {
-                        //if(requests[cc].size()==0) continue;
-                        int ccur=order[cc];
-                        if(isblock[ccur]!="-")
-                        {
-                            curexc=ccur;
-                            break;
-                        }
-                    }
-                }
-                if(curexc==-1)
-                {
-                    int nowsize=0;
-                    for(int dc=0;dc<N;++dc)
-                    {
-                        int cc=order[dc];
-                        if(nowsize<(requests[cc].size()))
-                        {
-                            nowsize=(requests[cc].size());
-                            curexc=cc;
-                        }
-                    }
-                }
-                // reorder below
-                deque < pair < vector < string > , vector < int >>>req1, req2;
-                int takerow=requests[curexc][0].second[1];
-                for(auto ii:requests[curexc])
-                {
-                    if(ii.second[1]==takerow)
-                        req1.push_back(ii);
-                    else 
-                        req2.push_back(ii);
-                }
-                for(int ii=0;ii<requests[curexc].size();++ii)
-                {
-                    if(ii<req1.size()) requests[curexc][ii]=req1[ii];
-                    else requests[curexc][ii]=req2[ii-req1.size()];
-                }
-                // reorder above
-                pair < vector < string > , vector < int >> temp = requests[curexc][0];
-                --rowleft; 
-                requests[curexc].pop_front();   
-                executing = 1;
+	bool add=0;
+	for (int i=0;i<N;++i) if (mrmtime[i]>0) add=1;
+	if (dramtime == 0 && add){
+		cout << "MRM Busy with addition of request" << '\n';
+	} else if (dramtime == 0) {
+	    if (switchtime>0){
+		    switchtime--;
+		    cout << "Deciding next request" << '\n';
+	    } else {
+            	if(curexc>-1 && curtype==0) reg_use[curcore][curreg]--;
+            	if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
+            	if(curexc>-1 && isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
+            	if(curexc>-1 && requests[curexc].size()==0) curexc=-1;
+            	bool bbc=false;
+	    	int rd=-1;
+            	for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
+            	if (bbc) {
+                	if(currowcnt==0) {
+				switchtime+=N;
+				curexc=-1;
+			} else {
+				switchtime+=1;
+			}
+                	if(curexc==-1)
+                	{
+                    	for(int cc=0;cc<N;++cc)
+                    	{
+                        	//if(requests[cc].size()==0) continue;
+                        	int ccur=order[cc];
+                        	if(isblock[ccur]!="-")
+                        	{
+                            	curexc=ccur;
+			    	rd=lwrow[ccur][isblock[ccur]];
+                            	break;
+                        	}
+                    	}
+                	}
+                	if(curexc==-1)
+                	{
+                    	int nowsize=0;
+                    	for(int dc=0;dc<N;++dc)
+                    	{
+                        	int cc=order[dc];
+                        	if(nowsize<(requests[cc].size()))
+                        	{
+                            	nowsize=(requests[cc].size());
+                            	curexc=cc;
+                        	}
+                    	}
+                	}
+                	// reorder below
+			if (currowcnt==0){
+                		deque < pair < vector < string > , vector < int >>>req1, req2;
+                		int takerow;
+				if (rd==-1){
+					takerow=requests[curexc][0].second[1];
+				} else {
+					takerow=rd;
+				}
+                		for(auto ii:requests[curexc])
+                		{
+                    		if(ii.second[1]==takerow)
+                        		req1.push_back(ii);
+                   		else 
+                        		req2.push_back(ii);
+                		}
+                		for(int ii=0;ii<requests[curexc].size();++ii)
+                		{
+                    		if(ii<req1.size()) requests[curexc][ii]=req1[ii];
+                    		else requests[curexc][ii]=req2[ii-req1.size()];
+                		}
+				switchtime+=2*requests[curexc].size();
+			}
+                	// reorder above
+                	pair < vector < string > , vector < int >> temp = requests[curexc][0];
+			currowcnt--;
+                	requests[curexc].pop_front();   
+                	executing = 1;
                 
-                curcycle = 0;
-                curcore = temp.second[0];
-                currow = temp.second[1];
-                curcol = temp.second[2];
-                curtype = temp.second[3];
-                curreg = temp.first[0];
-                curmem = 1024*temp.second[1]+temp.second[2];
-		swcnt[curcore]--;
-                dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
-                if (curtype==0){
-                    cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
-                } else {
-                    cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
-                }
+                	curcycle = 0;
+               		curcore = temp.second[0];
+                	currow = temp.second[1];
+                	curcol = temp.second[2];
+                	curtype = temp.second[3];
+                	curreg = temp.first[0];
+                	curmem = 1024*temp.second[1]+temp.second[2];
+			if (curtype==1) swcnt[curcore]--;
+                	dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
+                	if (curtype==0){
+                    		cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
+                	} else {
+                    		cout << "Started executing WRITE from " << curreg << " on core " << curcore << " to row " << temp.second[1] << " column " << temp.second[2] << '\n';
+                	}
             } 
             else {
                 cout << "DRAM Idle" << '\n';
@@ -646,6 +686,7 @@ void execute() //changed
                 currow=-1;
                 curcol=-1;
             }
+	    }
         } 
         else {
             if (dramtime==1){
@@ -672,6 +713,7 @@ void execute() //changed
             }
         }
         for (int i = 0; i < N; ++i) {
+	    if (mrmtime[i]>0) mrmtime[i]--;
             cout << "Core: " << i << '\n';
 	    if (e[i]){
 		    cout << "Error" << '\n';
@@ -765,18 +807,26 @@ void execute() //changed
                 executeslt(v, line, i);
 		line[i]++;
             } else if (todo == "lw") {
+		if (mrmtime[i]!=0){
+			cout << "MRM busy" << '\n';
+			continue;
+		}
 		if (requests[i].size()>=8 || reg_use[i][v[0]]) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
-        blockcnt[{i,v[0]}]++;
-	cnt[todo]++;
+        	blockcnt[{i,v[0]}]++;
+		cnt[todo]++;
 		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
 		line[i]++;
             } else {
-		if (requests[i].size()>=8 || reg_use[i][v[0]]) {
+		if (mrmtime[i]!=0){
+                        cout << "MRM busy" << '\n';
+                        continue;
+                }
+		if (requests[i].size()>=8 || reg_use[i][v[0]] || mrmtime[i]!=0) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -853,6 +903,7 @@ int main(int argc, char ** argv) { //changed
 	swcnt.push_back(0);
 	e.push_back(false);
 	input_file.close();
+	mrmtime.push_back(0);
     }
     res_reg["$zero"] = 1;
     res_wrd["add"] = 1;
