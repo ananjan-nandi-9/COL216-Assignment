@@ -27,79 +27,79 @@ Core Idle
 Clock Cycle : 4
 Started executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 5
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 6
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 7
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 8
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 9
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 10
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 11
 $s0 0
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 12
 Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 13
 Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 14
 Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 15
 Deciding next request
@@ -111,255 +111,254 @@ Core Idle
 Clock Cycle : 16
 Started executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-lw $s0,2000($zero)
-Issued READ to $s0 on core 0 from row 1 column 976
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 17
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 18
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 19
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 20
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 21
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 22
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 23
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 24
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 25
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 26
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 27
 Executing READ to $s0 on core 1 from row 512 column 1000
 Core: 0
-Core Idle
+MRM busy
 Core: 1
 Core Idle
 
 Clock Cycle : 28
 $s0 0
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 29
 Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 30
-Started executing READ to $s0 on core 0 from row 1 column 976
+Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-lw $s0,1000($zero)
-Issued READ to $s0 on core 1 from row 512 column 1000
+MRM busy
 
 Clock Cycle : 31
-Executing READ to $s0 on core 0 from row 1 column 976
+Deciding next request
 Core: 0
-Core Idle
+MRM busy
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 32
-Executing READ to $s0 on core 0 from row 1 column 976
+Deciding next request
 Core: 0
-Core Idle
+lw $s0,2000($zero)
+Issued READ to $s0 on core 0 from row 1 column 976
 Core: 1
 Core Idle
 
 Clock Cycle : 33
-Executing READ to $s0 on core 0 from row 1 column 976
+MRM Busy with addition of request
 Core: 0
 Core Idle
 Core: 1
 Core Idle
 
 Clock Cycle : 34
-Executing READ to $s0 on core 0 from row 1 column 976
+Started executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 35
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 36
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 37
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 38
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 39
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 40
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 41
 Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 42
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
+Core: 1
+MRM busy
+
+Clock Cycle : 43
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
+Core: 1
+MRM busy
+
+Clock Cycle : 44
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
+Core: 1
+MRM busy
+
+Clock Cycle : 45
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
+Core: 1
+MRM busy
+
+Clock Cycle : 46
 $s0 0
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
-Clock Cycle : 43
+Clock Cycle : 47
 Deciding next request
 Core: 0
 Core Idle
 Core: 1
-Core Idle
-
-Clock Cycle : 44
-Started executing READ to $s0 on core 1 from row 512 column 1000
-Core: 0
-addi $s0,$s0,1
-0 $s0 1
-Core: 1
-Core Idle
-
-Clock Cycle : 45
-Executing READ to $s0 on core 1 from row 512 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 46
-Executing READ to $s0 on core 1 from row 512 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 47
-Executing READ to $s0 on core 1 from row 512 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 48
-Executing READ to $s0 on core 1 from row 512 column 1000
+Deciding next request
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 49
-Executing READ to $s0 on core 1 from row 512 column 1000
+Deciding next request
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+MRM busy
 
 Clock Cycle : 50
-Executing READ to $s0 on core 1 from row 512 column 1000
+Deciding next request
 Core: 0
 Core Idle
 Core: 1
-Core Idle
+lw $s0,1000($zero)
+Issued READ to $s0 on core 1 from row 512 column 1000
 
-Number of instructions: 7
-Number of row buffer updates: 4
+Number of instructions: 6
+Number of row buffer updates: 3
 Number of times add was executed is: 0
-Number of times addi was executed is: 3
+Number of times addi was executed is: 2
 Number of times beq was executed is: 0
 Number of times bne was executed is: 0
 Number of times j was executed is: 0
@@ -369,7 +368,7 @@ Number of times slt was executed is: 0
 Number of times sub was executed is: 0
 Number of times sw was executed is: 0
 Core 0
-Value of $s0 is: 1
+Value of $s0 is: 0
 Value of $s1 is: 0
 Value of $s2 is: 0
 Value of $s3 is: 0

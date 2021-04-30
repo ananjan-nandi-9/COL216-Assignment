@@ -647,6 +647,7 @@ void execute() //changed
                    		else 
                         		req2.push_back(ii);
                 		}
+				currowcnt=req1.size();
                 		for(int ii=0;ii<requests[curexc].size();++ii)
                 		{
                     		if(ii<req1.size()) requests[curexc][ii]=req1[ii];
@@ -807,7 +808,7 @@ void execute() //changed
                 executeslt(v, line, i);
 		line[i]++;
             } else if (todo == "lw") {
-		if (mrmtime[i]!=0){
+		if (mrmtime[i]!=0 || switchtime!=0){
 			cout << "MRM busy" << '\n';
 			continue;
 		}
@@ -822,7 +823,7 @@ void execute() //changed
                 line[i] = executelw(v, line, i);
 		line[i]++;
             } else {
-		if (mrmtime[i]!=0){
+		if (mrmtime[i]!=0 || switchtime!=0){
                         cout << "MRM busy" << '\n';
                         continue;
                 }
