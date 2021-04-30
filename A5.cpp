@@ -33,6 +33,8 @@ string curreg = "lorem";
 int curmem = -1;
 int currow = -1;
 int curcol = -1;
+vector<int> swcnt;
+vector<bool> e;
 
 bool comp(pair < vector < string > , vector < int >> a, pair < vector < string > , vector < int >> b) //added
 {
@@ -69,12 +71,40 @@ string eraseTrail(string s) {
     }
     return s.substr(low + 1, high - low - 1);
 }
-void isReg(string s, int line) {
+bool isReg(string s, int line, int i) {
     if (res_reg[s] == 0) {
         cout << "Invalid Register Name, error in instruction: " << line << '\n';
-        exit(0);
+        e[i]=true;
+	return true;
     }
+    return false;
 }
+int str2intc(string s, int line, int j) {
+    int ans = 0, i = 0;
+    if (s[0] == '-') {
+        i = 1;
+        if (s.size() == 1) {
+            cout << "Expected an integer, error in instruction: " << line << '\n';
+            e[j]=true;
+	    return 0;
+        }
+    }
+    for (; i < s.size(); ++i) {
+        int val = (s[i] - '0');
+        if (val < 0 || val > 9) {
+            cout << "Expected an integer, error in instruction: " << line << '\n';
+            e[j]=true;
+	    return 0;
+        }
+        ans *= 10;
+        ans += val;
+    }
+    if (s[0] == '-') {
+        return -ans;
+    }
+    return ans;
+}
+
 int str2int(string s, int line) {
     int ans = 0, i = 0;
     if (s[0] == '-') {
@@ -98,6 +128,7 @@ int str2int(string s, int line) {
     }
     return ans;
 }
+
 vector < string > split(string s) {
     string cur = "";
     s += ',';
@@ -134,14 +165,14 @@ void get() //changed
 void executeadd(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "add command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
-    isReg(v[2], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)||
+    isReg(v[2], line[i], i)) return;
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $zero: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
     dep[i][v[0]] = vector < string > ({
         v[1],
@@ -155,14 +186,15 @@ void executeadd(vector < string > v, vector < int > line, int i) {
 void executeaddi(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "addi command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
-    int x = str2int(v[2], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)) return;
+    int x = str2intc(v[2], line[i], i);
+    if (e[i]) return;
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $zero: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
     dep[i][v[0]] = vector < string > ({
         v[1]
@@ -175,14 +207,14 @@ void executeaddi(vector < string > v, vector < int > line, int i) {
 void executesub(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "sub command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
-    isReg(v[2], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)||
+    isReg(v[2], line[i], i)) return;
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $0: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
     dep[i][v[0]] = vector < string > ({
         v[1],
@@ -196,14 +228,15 @@ void executesub(vector < string > v, vector < int > line, int i) {
 void executemul(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "mul command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return;
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
-    isReg(v[2], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)||
+    isReg(v[2], line[i], i)) return;
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $zero: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
     dep[i][v[0]] = vector < string > ({
         v[1],
@@ -217,19 +250,22 @@ void executemul(vector < string > v, vector < int > line, int i) {
 int executebeq(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "beq command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)) return line[i];
     if (labels[i].find(v[2]) == labels[i].end()) {
         cout << "Label not found: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     int x = labels[i][v[2]];
     if (reg[i][v[0]] == reg[i][v[1]]) {
         if (x < 0 || x >= cur[i]) {
             cout << "Instruction doesn't exist: " << line[i] << '\n';
-            exit(0);
+            e[i]=true;
+	    return line[i];
         }
         num++;
         return x;
@@ -241,19 +277,22 @@ int executebeq(vector < string > v, vector < int > line, int i) {
 int executebne(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "bne command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)) return line[i];
     if (labels[i].find(v[2]) == labels[i].end()) {
         cout << "Label not found: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     int x = labels[i][v[2]];
     if (reg[i][v[0]] != reg[i][v[1]]) {
         if (x < 0 || x >= cur[i]) {
             cout << "Instruction doesn't exist: " << line[i] << '\n';
-            exit(0);
+            e[i]=true;
+	    return line[i];
         }
         num++;
         return x;
@@ -265,20 +304,24 @@ int executebne(vector < string > v, vector < int > line, int i) {
 int executej(vector < string > v, vector < int > line, int i) {
     if (v.size() != 1) {
         cout << "j command needs 1 argument, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     if (labels[i].find(v[0]) == labels[i].end()) {
         cout << "Label not found: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     int x = labels[i][v[0]];
     if (x >= pow(2, 19) || x < 0) {
         cout << "Instruction doesn't exist: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     if (x < 0 || x >= cur[i]) {
         cout << "Instruction doesn't exist: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     num++;
     return x;
@@ -287,14 +330,14 @@ int executej(vector < string > v, vector < int > line, int i) {
 void executeslt(vector < string > v, vector < int > line, int i) {
     if (v.size() != 3) {
         cout << "slt command needs 3 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
-    isReg(v[0], line[i]);
-    isReg(v[1], line[i]);
-    isReg(v[2], line[i]);
+    if (isReg(v[0], line[i], i)||
+    isReg(v[1], line[i], i)||
+    isReg(v[2], line[i], i)) return;
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $0: " << line[i] << '\n';
-        exit(0);
+        e[i]=true; return;
     }
     dep[i][v[0]] = vector < string > ({
         v[1],
@@ -357,12 +400,14 @@ void dramexecute(vector < string > v, int i, int row, int column, bool t) { //ad
 int executelw(vector < string > v, vector < int > line, int i) { //added
     if (v.size() != 2) {
         cout << "lw command needs 2 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
-    isReg(v[0], line[i]);
+    if (isReg(v[0], line[i], i)) return line[i];
     if (v[0] == "$zero") {
         cout << "Cannot manipulate $0: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
     dep[i][v[0]] = vector < string > ({v[0]});
     string temp = v[1];
@@ -387,23 +432,27 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
             }
             if (curr == temp.size() || temp[curr] != '(' || temp[temp.size() - 1] != ')') {
                 cout << "Syntax error, instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             } else {
                 temp = temp.substr(curr + 1, temp.size() - curr - 2);
             }
             if (res_reg[temp] == 0) {
                 cout << "Not a register, error in instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
-            int offset = str2int(v[1].substr(0, curr), line[i]);
+            int offset = str2intc(v[1].substr(0, curr), line[i], i);
             int val = offset + reg[i][temp];
             if (val > pow(2, 20) / N || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
             if (val % 4 != 0) {
                 cout << "Invalid Memory Request:  " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
             temp = to_string(val);
         } else {
@@ -411,18 +460,21 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2int(temp, line[i]) > pow(2, 20) / N || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
+        if (str2intc(temp, line[i], i) > pow(2, 20) / N || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
-            exit(0);
+            e[i]=true;
+	    return line[i];
         }
     }
-    int val = str2int(temp, line[i]);
+    int val = str2intc(temp, line[i], i);
     val += i * pow(2, 20) / N;
     int row = val / 1024;
     int column = val - (1024 * row);
-    reg[i][v[0]] = str2int(dram[row][column], line[i]);
+    if (e[i]) return line[i];
+    reg[i][v[0]] = str2intc(dram[row][column], line[i], i);
     v[1] = to_string(val);
     num++;
+    if (swcnt[i]==0 && row==currow && column==curcol) return line[i];
     requests[i].push_back({v,{i,row,column,0,num}});
     cout << "Issued READ to " << v[0] << " on core " << i << " from row " << row << " column " << column << '\n';
     return line[i];
@@ -431,9 +483,10 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 int executesw(vector < string > v, vector < int > line, int i) { //added
     if (v.size() != 2) {
         cout << "sw command needs 2 arguments, error in instruction: " << line[i] << '\n';
-        exit(0);
+        e[i]=true;
+	return line[i];
     }
-    isReg(v[0], line[i]);
+    if (isReg(v[0], line[i], i)) return line[i];
     string temp = v[1];
     eraseTrail(temp);
     int curr = 0;
@@ -456,23 +509,27 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
             }
             if (curr == temp.size() || temp[curr] != '(' || temp[temp.size() - 1] != ')') {
                 cout << "Syntax error, instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             } else {
                 temp = temp.substr(curr + 1, temp.size() - curr - 2);
             }
             if (res_reg[temp] == 0) {
                 cout << "Not a register, error in instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
-            int offset = str2int(v[1].substr(0, curr), line[i]);
+            int offset = str2intc(v[1].substr(0, curr), line[i], i);
             int val = offset + reg[i][temp];
             if (val > pow(2, 20) / N || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
             if (val % 4 != 0) {
                 cout << "Invalid Memory Request:  " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
+		return line[i];
             }
             temp = to_string(val);
         } else {
@@ -480,19 +537,22 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2int(temp, line[i]) > pow(2, 20) / N || str2int(temp, line[i]) < 0 || str2int(temp, line[i]) % 4 != 0) {
+        if (str2intc(temp, line[i], i) > pow(2, 20) / N || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
-            exit(0);
+            e[i]=true;
+	    return line[i];
         }
     }
-    int val = str2int(temp, line[i]);
+    int val = str2intc(temp, line[i], i);
     val += i * pow(2, 20) / N;
     int row = val / 1024;
     int column = val - (1024 * row);
+    if (e[i]) return line[i];
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
     num++;
     requests[i].push_back({v,{i,row,column,1,num}});
+    swcnt[i]++;
     cout << "Issued WRITE from " << v[0] << " on core " << i << " to row " << row << " column " << column << '\n';
     return line[i];
 }
@@ -567,6 +627,7 @@ void execute() //changed
                 curtype = temp.second[3];
                 curreg = temp.first[0];
                 curmem = 1024*temp.second[1]+temp.second[2];
+		swcnt[curcore]--;
                 dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
                 if (curtype==0){
                     cout << "Started executing READ to " << curreg << " on core " << curcore << " from row " << temp.second[1] << " column " << temp.second[2] << '\n';
@@ -651,6 +712,10 @@ void execute() //changed
         }
         for (int i = 0; i < N; ++i) {
             cout << "Core: " << i << '\n';
+	    if (e[i]){
+		    cout << "Error" << '\n';
+		    continue;
+	    }
             if (line[i] == cur[i] || eraseTrail(command[i][line[i]]) == "" || (curtype == 0 && dramtime == 1 && curcore == i)) {
                 cout << "Core Idle" << '\n';
                 continue;
@@ -663,7 +728,7 @@ void execute() //changed
                 v[i] = eraseTrail(v[i]);
             if (res_wrd[todo] == 0) {
                 cout << "Invalid instruction: " << line[i] << '\n';
-                exit(0);
+                e[i]=true;
             }
                 
             if (todo == "add") {
@@ -750,7 +815,7 @@ void execute() //changed
                 line[i] = executelw(v, line, i);
 		line[i]++;
             } else {
-		if (requests[i].size()>=8) {
+		if (requests[i].size()>=8 || reg_use[i][v[0]]) {
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -824,6 +889,8 @@ int main(int argc, char ** argv) { //changed
         dep.push_back(d);
         reg.push_back(r);
         reg_use.push_back(map < string, int > ());
+	swcnt.push_back(0);
+	e.push_back(false);
 	input_file.close();
     }
     res_reg["$zero"] = 1;
@@ -846,4 +913,3 @@ int main(int argc, char ** argv) { //changed
     execute();
     get();
 }
-
