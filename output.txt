@@ -45,73 +45,73 @@ MRM busy
 Clock Cycle : 9
 Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-Core Idle
+MRM busy
 
 Clock Cycle : 10
-$s0 0
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
 MRM busy
 
 Clock Cycle : 11
-Deciding next request
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
 MRM busy
 
 Clock Cycle : 12
-Deciding next request
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
 MRM busy
 
 Clock Cycle : 13
+Executing READ to $s0 on core 0 from row 0 column 1000
+Core: 0
+MRM busy
+
+Clock Cycle : 14
+Executing READ to $s0 on core 0 from row 0 column 1000
+Core: 0
+Core Idle
+
+Clock Cycle : 15
+$s0 0
+Core: 0
+MRM busy
+
+Clock Cycle : 16
+Deciding next request
+Core: 0
+MRM busy
+
+Clock Cycle : 17
+Deciding next request
+Core: 0
+MRM busy
+
+Clock Cycle : 18
 Deciding next request
 Core: 0
 lw $s1,2000($zero)
 Issued READ to $s1 on core 0 from row 1 column 976
 
-Clock Cycle : 14
+Clock Cycle : 19
 MRM Busy with addition of request
 Core: 0
 lw $s2,2000($zero)
 Issued READ to $s2 on core 0 from row 1 column 976
 
-Clock Cycle : 15
+Clock Cycle : 20
 MRM Busy with addition of request
 Core: 0
 lw $s3,2000($zero)
 Issued READ to $s3 on core 0 from row 1 column 976
 
-Clock Cycle : 16
+Clock Cycle : 21
 MRM Busy with addition of request
 Core: 0
 Core Idle
 
-Clock Cycle : 17
-Started executing READ to $s1 on core 0 from row 1 column 976
-Core: 0
-Core Idle
-
-Clock Cycle : 18
-Executing READ to $s1 on core 0 from row 1 column 976
-Core: 0
-Core Idle
-
-Clock Cycle : 19
-Executing READ to $s1 on core 0 from row 1 column 976
-Core: 0
-Core Idle
-
-Clock Cycle : 20
-Executing READ to $s1 on core 0 from row 1 column 976
-Core: 0
-Core Idle
-
-Clock Cycle : 21
-Executing READ to $s1 on core 0 from row 1 column 976
-Core: 0
-Core Idle
-
 Clock Cycle : 22
-Executing READ to $s1 on core 0 from row 1 column 976
+Started executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
@@ -146,112 +146,112 @@ Core: 0
 Core Idle
 
 Clock Cycle : 29
-$s1 0
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 30
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 31
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 32
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 33
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 34
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 35
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 36
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 37
-Started executing READ to $s2 on core 0 from row 1 column 976
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 38
-Executing READ to $s2 on core 0 from row 1 column 976
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 39
-$s2 0
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 40
-Deciding next request
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 41
-Started executing READ to $s3 on core 0 from row 1 column 976
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 42
-Executing READ to $s3 on core 0 from row 1 column 976
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 43
-$s3 0
+Executing READ to $s1 on core 0 from row 1 column 976
 Core: 0
 Core Idle
 
 Clock Cycle : 44
-Deciding next request
+$s1 0
 Core: 0
 Core Idle
 
 Clock Cycle : 45
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 
 Clock Cycle : 46
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 
 Clock Cycle : 47
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 
 Clock Cycle : 48
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 
 Clock Cycle : 49
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 
 Clock Cycle : 50
-DRAM Idle
+Deciding next request
 Core: 0
 Core Idle
 

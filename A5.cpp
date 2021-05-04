@@ -486,6 +486,12 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 	    if (requests[i][k].second[3]==1 && requests[i][k].second[1]==row && requests[i][k].second[2]==column) 
 		    f=k;
     }
+    if (currow==row && curcol==column && curtype==1){
+	    mrmtime[i]=1;
+	    fw[i]=true;
+	    fwinfo[i]={v[0],reg[i][curreg]};
+	    return line[i];
+    }
     if (f!=-1 && currow==row){
 	    mrmtime[i]=currowcnt-f+1;
 	    fw[i]=true;
