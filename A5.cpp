@@ -39,6 +39,8 @@ vector<int> mrmtime;
 int currowcnt=0;
 int switchtime=0;
 map<string,int> lwrow[8];
+bool fw[8];
+pair<string,int> fwinfo[8];
 
 bool comp(pair < vector < string > , vector < int >> a, pair < vector < string > , vector < int >> b) //added
 {
@@ -479,7 +481,17 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     v[1] = to_string(val);
     num++;
     lwrow[i][v[0]]=row;
-    if (swcnt[i]==0 && row==currow && column==curcol) return line[i];
+    int f=-1;
+    for(int k=0;k<requests[i].size();++k){
+	    if (requests[i][k].second[3]==1 && requests[i][k].second[1]==row && requests[i][k].second[2]==column) 
+		    f=k;
+    }
+    if (f!=-1 && currow==row){
+	    mrmtime[i]=currowcnt-f+1;
+	    fw[i]=true;
+	    fwinfo[i]={v[0],reg[i][requests[i][f].first[0]]};
+	    return line[i];
+    }
     requests[i].push_back({v,{i,row,column,0,num}});
     if (currow==row) {
 	    currowcnt++;
@@ -715,6 +727,12 @@ void execute() //changed
         }
         for (int i = 0; i < N; ++i) {
 	    if (mrmtime[i]>0) mrmtime[i]--;
+	    if (mrmtime[i]==0 && fw[i]){
+		    fw[i]=false;
+		    cout << "Forwarded" << '\n';
+		    cout << fwinfo[i].first << " " << get_hexa(fwinfo[i].second) << '\n';
+		    continue;
+	    }
             cout << "Core: " << i << '\n';
 	    if (e[i]){
 		    cout << "Error" << '\n';
@@ -922,6 +940,7 @@ int main(int argc, char ** argv) { //changed
     for (int i = 0; i < 10; ++i) hexa[i] = ('0' + i);
     for (int i = 10; i < 16; ++i) hexa[i] = ('A' + (i - 10));
     for(int i=0;i<N;++i) order.push_back(i);
+    for(int i=0;i<8;++i) fw[i]=false;
     sort(order.begin(),order.end(),decide);
     execute();
     get();
