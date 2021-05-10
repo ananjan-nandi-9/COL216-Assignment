@@ -36,6 +36,7 @@ int curcol = -1;
 vector<int> swcnt;
 vector<bool> e;
 vector<int> mrmtime;
+bool pending,waiting=0;
 int currowcnt=0;
 int switchtime=0;
 map<string,int> lwrow[8];
@@ -493,7 +494,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 	    return line[i];
     }
     if (f!=-1 && currow==row){
-	    mrmtime[i]=currowcnt-f+1;
+	    mrmtime[i]=1;
 	    fw[i]=true;
 	    fwinfo[i]={v[0],reg[i][requests[i][f].first[0]]};
 	    return line[i];
@@ -501,7 +502,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     requests[i].push_back({v,{i,row,column,0,num}});
     if (currow==row) {
 	    currowcnt++;
-	    mrmtime[i]=currowcnt;
+	    mrmtime[i]=1;
     } else {
 	    mrmtime[i]=1;
     }
@@ -584,7 +585,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     swcnt[i]++;
     if (currow==row) {
 	    currowcnt++;
-	    mrmtime[i]=currowcnt;
+	    mrmtime[i]=1;
     } else {
 	    mrmtime[i]=1;
     }
@@ -604,10 +605,7 @@ void execute() //changed
 	if (dramtime == 0 && add){
 		cout << "MRM Busy with addition of request" << '\n';
 	} else if (dramtime == 0) {
-	    if (switchtime>0){
-		    switchtime--;
-		    cout << "Deciding next request" << '\n';
-	    } else {
+	    if (!pending){
             	if(curexc>-1 && curtype==0) reg_use[curcore][curreg]--;
             	if(curexc>-1 && curtype==0) blockcnt[{curexc,curreg}]--;
             	if(curexc>-1 && isblock[curexc]!="-" && blockcnt[{curexc,isblock[curexc]}]==0) isblock[curexc]="-";
@@ -617,7 +615,7 @@ void execute() //changed
             	for(int qw=0;qw<N;++qw) if(!requests[qw].empty()) bbc=true; 
             	if (bbc) {
                 	if(currowcnt==0) {
-				switchtime+=N;
+				switchtime+=1;
 				curexc=-1;
 			} else {
 				switchtime+=1;
@@ -671,14 +669,22 @@ void execute() //changed
                     		if(ii<req1.size()) requests[curexc][ii]=req1[ii];
                     		else requests[curexc][ii]=req2[ii-req1.size()];
                 		}
-				switchtime+=2*requests[curexc].size();
+				if (requests[curexc].size()!=1)
+					switchtime+=2*requests[curexc].size();
 			}
+			pending=1;
+		}}
+	        if (switchtime>0){
+			switchtime--;
+			cout << "Deciding next request" << '\n';
+		} else {
+		if (pending){
+			pending=0;
                 	// reorder above
                 	pair < vector < string > , vector < int >> temp = requests[curexc][0];
 			currowcnt--;
                 	requests[curexc].pop_front();   
                 	executing = 1;
-                
                 	curcycle = 0;
                		curcore = temp.second[0];
                 	currow = temp.second[1];
@@ -705,8 +711,8 @@ void execute() //changed
                 currow=-1;
                 curcol=-1;
             }
-	    }
-        } 
+        }
+	}	
         else {
             if (dramtime==1){
                 if (curtype==0)
@@ -758,6 +764,8 @@ void execute() //changed
                 cout << "Invalid instruction: " << line[i] << '\n';
                 e[i]=true;
             }
+	    waiting=0;
+	    for(int i=0;i<N;++i) if (requests[i].size()>0) waiting=1;
                 
             if (todo == "add") {
                 if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
@@ -832,6 +840,10 @@ void execute() //changed
                 executeslt(v, line, i);
 		line[i]++;
             } else if (todo == "lw") {
+		if (dramtime==0 && waiting) {
+			cout << "DRAM Waiting" << '\n';
+			continue;
+		}
 		if (mrmtime[i]!=0 || switchtime!=0){
 			cout << "MRM busy" << '\n';
 			continue;
@@ -847,6 +859,10 @@ void execute() //changed
                 line[i] = executelw(v, line, i);
 		line[i]++;
             } else {
+		if (dramtime==0 && waiting) {
+                        cout << "DRAM Waiting" << '\n';
+                        continue;
+                }
 		if (mrmtime[i]!=0 || switchtime!=0){
                         cout << "MRM busy" << '\n';
                         continue;

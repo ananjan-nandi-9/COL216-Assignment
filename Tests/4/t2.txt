@@ -1,0 +1,6 @@
+main:
+        sw $s0,1000($zero)
+        sw $s1,1000($zero)
+        sw $s2,1000($zero)
+        sw $s3,1000($zero)
+        sw $s4,1000($zero)
