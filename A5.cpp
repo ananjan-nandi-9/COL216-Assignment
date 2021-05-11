@@ -480,7 +480,6 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     if (e[i]) return line[i];
     reg[i][v[0]] = str2intc(dram[row][column], line[i], i);
     v[1] = to_string(val);
-    num++;
     lwrow[i][v[0]]=row;
     int f=-1;
     for(int k=0;k<requests[i].size();++k){
@@ -582,7 +581,6 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     if (e[i]) return line[i];
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
-    num++;
     requests[i].push_back({v,{i,row,column,1,num}});
     swcnt[i]++;
     if (currow==row) {
@@ -717,10 +715,13 @@ void execute() //changed
 	}	
         else {
             if (dramtime==1){
-                if (curtype==0)
+                if (curtype==0){
+		    cnt["lw"]++; num++;
                     cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
-                else 
+		} else {
+		    cnt["sw"]++; num++;
                     cout << curmem << " to " << curmem + 3 << " " << get_hexa(reg[curcore][curreg]) << '\n';
+		}
             } 
             else {
                 if (curtype==0)
@@ -743,6 +744,8 @@ void execute() //changed
 	    if (mrmtime[i]>0) mrmtime[i]--;
 	    if (mrmtime[i]==0 && fw[i]){
 		    fw[i]=false;
+		    num++;
+		    cnt["lw"]++;
 		    cout << "Forwarded" << '\n';
 		    cout << fwinfo[i].first << " " << get_hexa(fwinfo[i].second) << '\n';
 		    continue;
@@ -856,7 +859,6 @@ void execute() //changed
 			continue;
 		}
         	blockcnt[{i,v[0]}]++;
-		cnt[todo]++;
 		cout << com << '\n';
                 reg_use[i][v[0]]++;
                 line[i] = executelw(v, line, i);
@@ -876,7 +878,6 @@ void execute() //changed
 			continue;
 		}
 		cout << com << '\n';
-		cnt[todo]++;
                 line[i] = executesw(v, line, i);
 		line[i]++;
             }
