@@ -26,6 +26,7 @@ int executelw(vector < string > v, vector < int > line, int i);
 int executesw(vector < string > v, vector < int > line, int i);
 vector < map < string, vector < string >>> dep; //maintains dependencies
 int N, M;
+int curval = 0;
 int curcycle = 0;
 int curcore = -1;
 int curtype = -1;
@@ -500,7 +501,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 	    reg_use[i][v[0]]--;
 	    return line[i];
     }
-    requests[i].push_back({v,{i,row,column,0,num}});
+    requests[i].push_back({v,{i,row,column,0,num,-1}});
     if (currow==row) {
 	    currowcnt++;
 	    mrmtime[i]=1;
@@ -581,7 +582,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     if (e[i]) return line[i];
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
-    requests[i].push_back({v,{i,row,column,1,num}});
+    requests[i].push_back({v,{i,row,column,1,num,reg[i][v[0]]}});
     swcnt[i]++;
     if (currow==row) {
 	    currowcnt++;
@@ -691,6 +692,7 @@ void execute() //changed
                 	curcol = temp.second[2];
                 	curtype = temp.second[3];
                 	curreg = temp.first[0];
+			curval = temp.second[5];
                 	curmem = 1024*temp.second[1]+temp.second[2];
 			if (curtype==1) swcnt[curcore]--;
                 	dramexecute(temp.first, temp.second[0], temp.second[1], temp.second[2], temp.second[3]);
@@ -710,6 +712,7 @@ void execute() //changed
                 curmem=-1;
                 currow=-1;
                 curcol=-1;
+		curval=-1;
             }
         }
 	}	
@@ -720,7 +723,7 @@ void execute() //changed
                     cout << curreg << " " << get_hexa(reg[curcore][curreg]) << '\n';
 		} else {
 		    cnt["sw"]++; num++;
-                    cout << curmem << " to " << curmem + 3 << " " << get_hexa(reg[curcore][curreg]) << '\n';
+                    cout << curmem << " to " << curmem + 3 << " " << get_hexa(curval) << '\n';
 		}
             } 
             else {

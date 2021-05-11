@@ -227,7 +227,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 31
-1000 to 1003 1
+1000 to 1003 0
 Core: 0
 addi $s0, $s0, -1
 0 $s0 8
@@ -331,7 +331,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 45
-2000 to 2003 3
+2000 to 2003 1
 Core: 0
 DRAM Waiting
 Core: 1
@@ -434,7 +434,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 59
-1000 to 1003 3
+1000 to 1003 1
 Core: 0
 add $t1, $t0, $t1
 0 $t1 8
@@ -545,7 +545,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 73
-2000 to 2003 8
+2000 to 2003 1
 Core: 0
 DRAM Waiting
 Core: 1
@@ -651,7 +651,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 87
-1000 to 1003 8
+1000 to 1003 1
 Core: 0
 DRAM Waiting
 Core: 1
@@ -760,7 +760,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 101
-2000 to 2003 D
+2000 to 2003 2
 Core: 0
 DRAM Waiting
 Core: 1
@@ -866,7 +866,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 115
-1000 to 1003 D
+1000 to 1003 2
 Core: 0
 DRAM Waiting
 Core: 1
@@ -975,7 +975,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 129
-2000 to 2003 15
+2000 to 2003 3
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1081,7 +1081,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 143
-1000 to 1003 15
+1000 to 1003 3
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1190,7 +1190,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 157
-2000 to 2003 22
+2000 to 2003 5
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1296,7 +1296,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 171
-1000 to 1003 22
+1000 to 1003 5
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1405,7 +1405,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 185
-2000 to 2003 37
+2000 to 2003 8
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1511,7 +1511,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 199
-1000 to 1003 37
+1000 to 1003 8
 Core: 0
 DRAM Waiting
 Core: 1
@@ -1611,7 +1611,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 213
-2000 to 2003 59
+2000 to 2003 D
 Core: 0
 Core Idle
 Core: 1
@@ -1709,7 +1709,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 227
-1000 to 1003 37
+1000 to 1003 D
 Core: 0
 Core Idle
 Core: 1
@@ -1807,7 +1807,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 241
-2000 to 2003 59
+2000 to 2003 15
 Core: 0
 Core Idle
 Core: 1
@@ -1989,7 +1989,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 267
-1000 to 1003 37
+1000 to 1003 15
 Core: 0
 Core Idle
 Core: 1
@@ -2017,7 +2017,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 271
-1000 to 1003 37
+1000 to 1003 22
 Core: 0
 Core Idle
 Core: 1
@@ -2185,7 +2185,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 295
-2000 to 2003 59
+2000 to 2003 22
 Core: 0
 Core Idle
 Core: 1
@@ -2213,7 +2213,7 @@ Core: 1
 Core Idle
 
 Clock Cycle : 299
-2000 to 2003 59
+2000 to 2003 37
 Core: 0
 Core Idle
 Core: 1
