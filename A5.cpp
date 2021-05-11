@@ -491,12 +491,14 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 	    mrmtime[i]=1;
 	    fw[i]=true;
 	    fwinfo[i]={v[0],reg[i][curreg]};
+	    reg_use[i][v[0]]--;
 	    return line[i];
     }
     if (f!=-1 && currow==row){
 	    mrmtime[i]=1;
 	    fw[i]=true;
 	    fwinfo[i]={v[0],reg[i][requests[i][f].first[0]]};
+	    reg_use[i][v[0]]--;
 	    return line[i];
     }
     requests[i].push_back({v,{i,row,column,0,num}});
@@ -849,6 +851,7 @@ void execute() //changed
 			continue;
 		}
 		if (requests[i].size()>=8 || reg_use[i][v[0]]) {
+			cout << requests[i].size() << '\n';
 			cout << "Core Idle" << '\n';
 			continue;
 		}
@@ -868,6 +871,7 @@ void execute() //changed
                         continue;
                 }
 		if (requests[i].size()>=8 || reg_use[i][v[0]] || mrmtime[i]!=0) {
+			cout << reg_use[i][v[0]] << '\n';
 			cout << "Core Idle" << '\n';
 			continue;
 		}
