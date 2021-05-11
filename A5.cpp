@@ -494,7 +494,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
 	    reg_use[i][v[0]]--;
 	    return line[i];
     }
-    if (f!=-1 && currow==row){
+    if (f!=-1){
 	    mrmtime[i]=1;
 	    fw[i]=true;
 	    fwinfo[i]={v[0],reg[i][requests[i][f].first[0]]};
