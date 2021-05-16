@@ -468,7 +468,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2intc(temp, line[i], i) > pow(2, 20) / N || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
+        if (str2intc(temp, line[i], i) > 1024*(1024 / N) || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
             e[i]=true;
 	    return line[i];
@@ -569,7 +569,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (!found) {
-        if (str2intc(temp, line[i], i) > pow(2, 20) / N || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
+        if (str2intc(temp, line[i], i) > 1024*(1024 / N) || str2intc(temp, line[i], i) < 0 || str2intc(temp, line[i], i) % 4 != 0) {
             cout << "Out of Memory, error in instruction: " << line[i] << '\n';
             e[i]=true;
 	    return line[i];
