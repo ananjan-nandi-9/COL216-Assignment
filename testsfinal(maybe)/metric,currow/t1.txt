@@ -1,0 +1,12 @@
+main:
+	lw $s0, 2000($zero)
+	lw $s0, 2000($zero)
+	lw $s0, 2000($zero)
+	addi $s0, $zero, 10
+	addi $s0, $zero, 10
+	addi $s0, $zero, 10
+	addi $s0, $zero, 10
+	addi $s0, $zero, 10
+	addi $s0, $zero, 10
+	addi $s0, $zero, 1
+exit:

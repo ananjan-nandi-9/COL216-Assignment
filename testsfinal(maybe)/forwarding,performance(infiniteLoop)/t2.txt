@@ -1,0 +1,14 @@
+main:
+	addi $s0, $zero, 15
+	sw $s0, 1000($zero)
+loop:
+	addi $s0, $s0, -1
+	bne $s0, $zero, loop
+
+not_loop:
+	sw $s0, 2000($zero)
+	lw $s0, 2000($zero)
+	lw $s0, 1000($zero)
+	j loop
+	
+exit:
