@@ -1,8 +1,7 @@
 main:
 	addi $s0, $zero, 10
 	sw $s0, 2000($zero)
-	lw $s0, 1004($zero)
 	sw $s0, 1000($zero)
+	lw $s0, 1004($zero)
 	lw $s1, 1000($zero)
-	
 exit:

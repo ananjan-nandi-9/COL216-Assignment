@@ -625,7 +625,7 @@ void execute() //changed
                 	{
                     	for(int cc=0;cc<N;++cc)
                     	{
-                        	//if(requests[cc].size()==0) continue;
+                        	if(requests[cc].size()==0) continue;
                         	int ccur=order[cc];
                         	if(isblock[ccur]!="-")
                         	{
