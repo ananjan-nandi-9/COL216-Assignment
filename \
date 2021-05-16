@@ -776,7 +776,7 @@ void execute() //changed
 	    for(int i=0;i<N;++i) if (requests[i].size()>0) waiting=1;
                 
             if (todo == "add") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
             if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			continue;
@@ -786,17 +786,18 @@ void execute() //changed
                 executeadd(v, line, i);
 		line[i]++;
             } else if (todo == "addi") {
-                if ((reg_use[i][v[1]])) {
+                if (executing && (reg_use[i][v[1]])) {
 			cout << "Core Idle" << '\n';
             		isblock[i]=v[1];
 			continue;
 		}
+		cout << executing << '\n';
 		cnt[todo]++;
 		cout << com << '\n';
                 executeaddi(v, line, i);
 		line[i]++;
             } else if (todo == "sub") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
 			cout << "Core Idle" << '\n';
             if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			continue;
@@ -806,7 +807,7 @@ void execute() //changed
                 executesub(v, line, i);
 		line[i]++;
             } else if (todo == "mul") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
                     if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			cout << "Core Idle" << '\n';
 			continue;
@@ -816,7 +817,7 @@ void execute() //changed
                 executemul(v, line, i);
 		line[i]++;
             } else if (todo == "beq") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[0]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
 			cout << "Core Idle" << '\n';
             if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[0];
 			continue;
@@ -825,7 +826,7 @@ void execute() //changed
 		cout << com << '\n';
                 line[i] = executebeq(v, line, i);
             } else if (todo == "bne") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[0]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[0]])) {
                 if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[0];
 			cout << "Core Idle" << '\n';
 			continue;
@@ -838,7 +839,7 @@ void execute() //changed
 		cout << com << '\n';
                 line[i] = executej(v, line, i);
             } else if (todo == "slt") {
-                if ((reg_use[i][v[1]] || reg_use[i][v[2]])) {
+                if (executing && (reg_use[i][v[1]] || reg_use[i][v[2]])) {
                     if(reg_use[i][v[1]]) isblock[i]=v[1]; else isblock[i]=v[2];
 			cout << "Core Idle" << '\n';
 			continue;

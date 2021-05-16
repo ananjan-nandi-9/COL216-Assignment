@@ -2,2942 +2,1128 @@
 Clock Cycle : 1
 DRAM Idle
 Core: 0
-addi $t0, $zero, 0
-0 $t0 0
+lw $s0, 1000($zero)
+Issued READ to $s0 on core 0 from row 0 column 1000
 Core: 1
-addi $s0, $zero, 200
-1 $s0 C8
+addi $s0, $zero, 15
+1 $s0 F
+Core: 2
+addi $s2, $zero, 100
+2 $s2 64
+Core: 3
+addi $s2, $zero, 100
+3 $s2 64
 
 Clock Cycle : 2
-DRAM Idle
-Core: 0
-addi $t1, $zero, 1
-0 $t1 1
-Core: 1
-addi $s0, $s0, 0
-1 $s0 C8
-
-Clock Cycle : 3
-DRAM Idle
-Core: 0
-addi $s0, $zero, 10
-0 $s0 A
-Core: 1
-sw $s0, 1000($zero)
-Issued WRITE from $s0 on core 1 to row 512 column 1000
-
-Clock Cycle : 4
 MRM Busy with addition of request
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
 DRAM Waiting
+Core: 2
+DRAM Waiting
+Core: 3
+DRAM Waiting
 
-Clock Cycle : 5
+Clock Cycle : 3
 Deciding next request
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
 DRAM Waiting
+Core: 2
+DRAM Waiting
+Core: 3
+DRAM Waiting
+
+Clock Cycle : 4
+Started executing READ to $s0 on core 0 from row 0 column 1000
+Core: 0
+Core Idle
+Core: 1
+lw $t0, 1000($zero)
+Issued READ to $t0 on core 1 from row 256 column 1000
+Core: 2
+lw $s3, 1000($zero)
+Issued READ to $s3 on core 2 from row 512 column 1000
+Core: 3
+lw $s3, 1000($zero)
+Issued READ to $s3 on core 3 from row 768 column 1000
+
+Clock Cycle : 5
+Executing READ to $s0 on core 0 from row 0 column 1000
+Core: 0
+Core Idle
+Core: 1
+Core Idle
+Core: 2
+addi $s0, $s1, 100
+2 $s0 64
+Core: 3
+addi $s0, $s1, 100
+3 $s0 64
 
 Clock Cycle : 6
-Started executing WRITE from $s0 on core 1 to row 512 column 1000
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
-lw $s1, 1000($zero)
+Core Idle
+Core: 2
+Core Idle
+Core: 3
+add $s0, $s2, $s2
+3 $s0 C8
 
 Clock Cycle : 7
-Executing WRITE from $s0 on core 1 to row 512 column 1000
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
-Forwarded
-$s1 C8
+Core Idle
+Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
+Core Idle
 
 Clock Cycle : 8
-Executing WRITE from $s0 on core 1 to row 512 column 1000
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 9
-Executing WRITE from $s0 on core 1 to row 512 column 1000
-Forwarded
-$t0 0
+Executing READ to $s0 on core 0 from row 0 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 10
-Executing WRITE from $s0 on core 1 to row 512 column 1000
+Executing READ to $s0 on core 0 from row 0 column 1000
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 11
-Executing WRITE from $s0 on core 1 to row 512 column 1000
-Forwarded
-$t1 1
+$s0 0
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 12
-Executing WRITE from $s0 on core 1 to row 512 column 1000
+Deciding next request
 Core: 0
-add $t1, $t0, $t1
-0 $t1 1
+addi $s0, $s0, 10
+0 $s0 A
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 13
-525288 to 525291 C8
+Started executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 1
+lw $s0, 2000($zero)
+Issued READ to $s0 on core 0 from row 1 column 976
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 14
-Deciding next request
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 15
-Deciding next request
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 16
-Deciding next request
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 17
-Deciding next request
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 18
-Deciding next request
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 19
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 20
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 21
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-addi $s0, $s0, -1
-0 $s0 9
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 22
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 23
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $t0 on core 1 from row 256 column 1000
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 24
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 1
+Executing READ to $t0 on core 1 from row 256 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 25
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+$t0 0
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 26
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 1
+Deciding next request
+Core: 0
+Core Idle
 Core: 1
+addi $s0, $t0, 19
+1 $s0 13
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 27
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Started executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-add $t1, $t0, $t1
-0 $t1 2
+Core Idle
 Core: 1
+j exit
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 28
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 1
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 29
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 30
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 31
-1000 to 1003 0
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-addi $s0, $s0, -1
-0 $s0 8
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 32
-Deciding next request
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 33
-Started executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 34
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Forwarded
-$t0 1
+Executing READ to $s3 on core 3 from row 768 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 35
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 36
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Forwarded
-$t1 2
+Executing READ to $s3 on core 3 from row 768 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 37
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-add $t1, $t0, $t1
-0 $t1 3
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 38
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 3 from row 768 column 1000
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 2
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 39
-Executing WRITE from $t1 on core 0 to row 1 column 976
+$s3 0
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 40
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Deciding next request
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 41
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Started executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-addi $s0, $s0, -1
-0 $s0 7
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 42
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 43
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 44
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Forwarded
-$t0 2
+Executing READ to $s3 on core 2 from row 512 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 45
-2000 to 2003 1
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 46
-Deciding next request
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 47
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 48
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 3
+Executing READ to $s3 on core 2 from row 512 column 1000
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 49
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-add $t1, $t0, $t1
-0 $t1 5
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 50
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 3
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 51
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 52
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s3 on core 2 from row 512 column 1000
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 53
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+$s3 0
 Core: 0
-addi $s0, $s0, -1
-0 $s0 6
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 54
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Deciding next request
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 55
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Started executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 56
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 3
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 57
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 58
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 5
+Executing READ to $s0 on core 0 from row 1 column 976
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 59
-1000 to 1003 1
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-add $t1, $t0, $t1
-0 $t1 8
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 60
-Deciding next request
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 5
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 61
-Started executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 62
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 63
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-addi $s0, $s0, -1
-0 $s0 5
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 64
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 65
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 66
-Executing WRITE from $t1 on core 0 to row 1 column 976
+Executing READ to $s0 on core 0 from row 1 column 976
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 67
-Executing WRITE from $t1 on core 0 to row 1 column 976
+$s0 0
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 68
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 69
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 70
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 71
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 72
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 73
-2000 to 2003 1
+DRAM Idle
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 74
-Deciding next request
+DRAM Idle
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 75
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-lw $t0, 1000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 76
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 5
+DRAM Idle
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 77
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-lw $t1, 2000($zero)
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 78
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 8
+DRAM Idle
+Core: 0
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 79
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-add $t1, $t0, $t1
-0 $t1 D
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 80
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-sub $t0, $t1, $t0
-0 $t0 8
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 81
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 82
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-0
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 83
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-0
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 84
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-0
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 85
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-0
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 86
-Executing WRITE from $t0 on core 0 to row 0 column 1000
+DRAM Idle
 Core: 0
-0
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 87
-1000 to 1003 1
+DRAM Idle
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 88
-Deciding next request
+DRAM Idle
 Core: 0
-DRAM Waiting
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 89
-Started executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 90
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-addi $s0, $s0, -1
-0 $s0 4
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 91
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-bne $s0, $zero, fibonacci
+Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 92
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 93
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 94
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 95
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 96
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 97
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 98
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 99
-Executing WRITE from $t1 on core 0 to row 1 column 976
+DRAM Idle
 Core: 0
-8
 Core Idle
 Core: 1
+Core Idle
+Core: 2
+Core Idle
+Core: 3
 Core Idle
 
 Clock Cycle : 100
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 101
-2000 to 2003 2
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 102
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 103
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t0, 1000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 104
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 8
-Core: 1
-Core Idle
-
-Clock Cycle : 105
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t1, 2000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 106
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 D
-Core: 1
-Core Idle
-
-Clock Cycle : 107
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-add $t1, $t0, $t1
-0 $t1 15
-Core: 1
-Core Idle
-
-Clock Cycle : 108
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sub $t0, $t1, $t0
-0 $t0 D
-Core: 1
-Core Idle
-
-Clock Cycle : 109
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
-Core: 1
-Core Idle
-
-Clock Cycle : 110
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 111
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 112
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 113
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 114
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 115
-1000 to 1003 2
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 116
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 117
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
-Core: 1
-Core Idle
-
-Clock Cycle : 118
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-addi $s0, $s0, -1
-0 $s0 3
-Core: 1
-Core Idle
-
-Clock Cycle : 119
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-bne $s0, $zero, fibonacci
-Core: 1
-Core Idle
-
-Clock Cycle : 120
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 121
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 122
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 123
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 124
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 125
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 126
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 127
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 128
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 129
-2000 to 2003 3
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 130
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 131
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t0, 1000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 132
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 D
-Core: 1
-Core Idle
-
-Clock Cycle : 133
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t1, 2000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 134
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 15
-Core: 1
-Core Idle
-
-Clock Cycle : 135
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-add $t1, $t0, $t1
-0 $t1 22
-Core: 1
-Core Idle
-
-Clock Cycle : 136
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sub $t0, $t1, $t0
-0 $t0 15
-Core: 1
-Core Idle
-
-Clock Cycle : 137
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
-Core: 1
-Core Idle
-
-Clock Cycle : 138
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 139
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 140
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 141
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 142
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 143
-1000 to 1003 3
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 144
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 145
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
-Core: 1
-Core Idle
-
-Clock Cycle : 146
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-addi $s0, $s0, -1
-0 $s0 2
-Core: 1
-Core Idle
-
-Clock Cycle : 147
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-bne $s0, $zero, fibonacci
-Core: 1
-Core Idle
-
-Clock Cycle : 148
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 149
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 150
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 151
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 152
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 153
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 154
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 155
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 156
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 157
-2000 to 2003 5
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 158
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 159
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t0, 1000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 160
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 15
-Core: 1
-Core Idle
-
-Clock Cycle : 161
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t1, 2000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 162
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 22
-Core: 1
-Core Idle
-
-Clock Cycle : 163
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-add $t1, $t0, $t1
-0 $t1 37
-Core: 1
-Core Idle
-
-Clock Cycle : 164
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sub $t0, $t1, $t0
-0 $t0 22
-Core: 1
-Core Idle
-
-Clock Cycle : 165
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
-Core: 1
-Core Idle
-
-Clock Cycle : 166
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 167
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 168
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 169
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 170
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 171
-1000 to 1003 5
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 172
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 173
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
-Core: 1
-Core Idle
-
-Clock Cycle : 174
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-addi $s0, $s0, -1
-0 $s0 1
-Core: 1
-Core Idle
-
-Clock Cycle : 175
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-bne $s0, $zero, fibonacci
-Core: 1
-Core Idle
-
-Clock Cycle : 176
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 177
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 178
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 179
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 180
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 181
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 182
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 183
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 184
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-8
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 185
-2000 to 2003 8
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 186
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 187
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t0, 1000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 188
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t0 22
-Core: 1
-Core Idle
-
-Clock Cycle : 189
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-lw $t1, 2000($zero)
-Core: 1
-Core Idle
-
-Clock Cycle : 190
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Forwarded
-$t1 37
-Core: 1
-Core Idle
-
-Clock Cycle : 191
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-add $t1, $t0, $t1
-0 $t1 59
-Core: 1
-Core Idle
-
-Clock Cycle : 192
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sub $t0, $t1, $t0
-0 $t0 37
-Core: 1
-Core Idle
-
-Clock Cycle : 193
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-sw $t0, 1000($zero)
-Issued WRITE from $t0 on core 0 to row 0 column 1000
-Core: 1
-Core Idle
-
-Clock Cycle : 194
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 195
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 196
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 197
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 198
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 199
-1000 to 1003 8
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 200
-Deciding next request
-Core: 0
-DRAM Waiting
-Core: 1
-Core Idle
-
-Clock Cycle : 201
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-sw $t1, 2000($zero)
-Issued WRITE from $t1 on core 0 to row 1 column 976
-Core: 1
-Core Idle
-
-Clock Cycle : 202
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-addi $s0, $s0, -1
-0 $s0 0
-Core: 1
-Core Idle
-
-Clock Cycle : 203
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-bne $s0, $zero, fibonacci
-Core: 1
-Core Idle
-
-Clock Cycle : 204
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 205
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 206
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 207
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 208
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 209
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 210
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 211
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 212
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 213
-2000 to 2003 D
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 214
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 215
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 216
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 217
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 218
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 219
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 220
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 221
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 222
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 223
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 224
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 225
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 226
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 227
-1000 to 1003 D
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 228
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 229
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 230
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 231
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 232
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 233
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 234
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 235
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 236
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 237
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 238
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 239
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 240
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 241
-2000 to 2003 15
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 242
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 243
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 244
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 245
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 246
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 247
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 248
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 249
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 250
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 251
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 252
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 253
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 254
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 255
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 256
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 257
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 258
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 259
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 260
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 261
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 262
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 263
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 264
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 265
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 266
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 267
-1000 to 1003 15
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 268
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 269
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 270
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 271
-1000 to 1003 22
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 272
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 273
-Started executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 274
-Executing WRITE from $t0 on core 0 to row 0 column 1000
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 275
-1000 to 1003 37
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 276
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 277
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 278
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 279
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 280
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 281
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 282
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 283
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 284
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 285
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 286
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 287
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 288
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 289
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 290
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 291
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 292
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 293
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 294
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 295
-2000 to 2003 22
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 296
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 297
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 298
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 299
-2000 to 2003 37
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 300
-Deciding next request
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 301
-Started executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 302
-Executing WRITE from $t1 on core 0 to row 1 column 976
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 303
-2000 to 2003 59
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 304
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 305
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 306
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 307
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 308
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 309
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 310
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 311
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 312
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 313
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 314
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 315
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 316
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 317
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 318
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 319
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 320
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 321
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 322
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 323
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 324
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 325
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 326
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 327
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 328
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 329
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 330
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 331
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 332
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 333
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 334
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 335
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 336
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 337
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 338
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 339
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 340
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 341
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 342
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 343
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 344
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 345
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 346
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 347
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 348
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 349
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 350
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 351
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 352
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 353
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 354
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 355
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 356
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 357
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 358
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 359
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 360
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 361
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 362
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 363
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 364
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 365
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 366
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 367
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 368
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 369
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 370
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 371
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 372
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 373
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 374
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 375
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 376
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 377
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 378
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 379
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 380
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 381
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 382
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 383
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 384
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 385
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 386
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 387
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 388
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 389
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 390
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 391
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 392
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 393
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 394
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 395
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 396
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 397
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 398
-DRAM Idle
-Core: 0
-Core Idle
-Core: 1
-Core Idle
-
-Clock Cycle : 399
 DRAM Idle
 Core: 0
 Core Idle
 Core: 1
 Core Idle
-
-Clock Cycle : 400
-DRAM Idle
-Core: 0
+Core: 2
 Core Idle
-Core: 1
+Core: 3
 Core Idle
 
-Number of instructions: 89
-Number of row buffer updates: 42
-Number of times add was executed is: 10
-Number of times addi was executed is: 15
+Number of instructions: 14
+Number of row buffer updates: 5
+Number of times add was executed is: 1
+Number of times addi was executed is: 7
 Number of times beq was executed is: 0
-Number of times bne was executed is: 10
-Number of times j was executed is: 0
-Number of times lw was executed is: 21
+Number of times bne was executed is: 0
+Number of times j was executed is: 1
+Number of times lw was executed is: 5
 Number of times mul was executed is: 0
 Number of times slt was executed is: 0
-Number of times sub was executed is: 10
-Number of times sw was executed is: 23
+Number of times sub was executed is: 0
+Number of times sw was executed is: 0
 Core 0
 Value of $s0 is: 0
 Value of $s1 is: 0
@@ -2949,8 +1135,8 @@ Value of $s6 is: 0
 Value of $s7 is: 0
 Value of $s8 is: 0
 Value of $s9 is: 0
-Value of $t0 is: 37
-Value of $t1 is: 59
+Value of $t0 is: 0
+Value of $t1 is: 0
 Value of $t2 is: 0
 Value of $t3 is: 0
 Value of $t4 is: 0
@@ -2960,9 +1146,51 @@ Value of $t7 is: 0
 Value of $t8 is: 0
 Value of $t9 is: 0
 Core 1
-Value of $s0 is: C8
-Value of $s1 is: C8
+Value of $s0 is: 13
+Value of $s1 is: 0
 Value of $s2 is: 0
+Value of $s3 is: 0
+Value of $s4 is: 0
+Value of $s5 is: 0
+Value of $s6 is: 0
+Value of $s7 is: 0
+Value of $s8 is: 0
+Value of $s9 is: 0
+Value of $t0 is: 0
+Value of $t1 is: 0
+Value of $t2 is: 0
+Value of $t3 is: 0
+Value of $t4 is: 0
+Value of $t5 is: 0
+Value of $t6 is: 0
+Value of $t7 is: 0
+Value of $t8 is: 0
+Value of $t9 is: 0
+Core 2
+Value of $s0 is: 64
+Value of $s1 is: 0
+Value of $s2 is: 64
+Value of $s3 is: 0
+Value of $s4 is: 0
+Value of $s5 is: 0
+Value of $s6 is: 0
+Value of $s7 is: 0
+Value of $s8 is: 0
+Value of $s9 is: 0
+Value of $t0 is: 0
+Value of $t1 is: 0
+Value of $t2 is: 0
+Value of $t3 is: 0
+Value of $t4 is: 0
+Value of $t5 is: 0
+Value of $t6 is: 0
+Value of $t7 is: 0
+Value of $t8 is: 0
+Value of $t9 is: 0
+Core 3
+Value of $s0 is: C8
+Value of $s1 is: 0
+Value of $s2 is: 64
 Value of $s3 is: 0
 Value of $s4 is: 0
 Value of $s5 is: 0
