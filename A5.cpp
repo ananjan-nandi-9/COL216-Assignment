@@ -475,7 +475,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     int val = str2intc(temp, line[i], i);
-    val += i * pow(2, 20) / N;
+    val += i * (1024 / N)*1024;
     int row = val / 1024;
     int column = val - (1024 * row);
     if (e[i]) return line[i];
@@ -576,7 +576,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     int val = str2intc(temp, line[i], i);
-    val += i * pow(2, 20) / N;
+    val += i * (1024 / N) * 1024;
     int row = val / 1024;
     int column = val - (1024 * row);
     if (e[i]) return line[i];
@@ -749,6 +749,7 @@ void execute() //changed
 		    fw[i]=false;
 		    num++;
 		    cnt["lw"]++;
+		    cout << "Core: " << i << '\n';
 		    cout << "Forwarded" << '\n';
 		    cout << fwinfo[i].first << " " << get_hexa(fwinfo[i].second) << '\n';
 		    continue;
