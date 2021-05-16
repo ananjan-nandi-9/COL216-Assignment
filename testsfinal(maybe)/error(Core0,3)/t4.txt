@@ -1,0 +1,4 @@
+main:
+	sw $t6, 3000(zero)
+	sw $t6, 3000($zero)
+exit:
