@@ -1,0 +1,3 @@
+main:
+	lw $s0, 340($zero)
+exit:

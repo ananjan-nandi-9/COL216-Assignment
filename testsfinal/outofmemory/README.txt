@@ -1,0 +1,1 @@
+Checks out of memory if 1024 * (1024/3) <memory <=pow(2,20)/3

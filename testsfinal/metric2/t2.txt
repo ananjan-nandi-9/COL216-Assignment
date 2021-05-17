@@ -1,0 +1,14 @@
+main:
+	addi $s0, $zero, 100
+	addi $s0, $zero, 100	
+	addi $s0, $zero, 100
+	addi $s0, $zero, 100
+	lw $s0, 1000($zero)
+	lw $s1, 1000($zero)
+	lw $s2, 1000($zero)
+	addi $t0, $zero, 100
+	addi $t0, $zero, 100	
+	addi $t0, $zero, 100
+	addi $t0, $zero, 100
+
+exit:

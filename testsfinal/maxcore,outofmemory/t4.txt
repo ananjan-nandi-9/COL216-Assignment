@@ -1,0 +1,6 @@
+main:	
+	addi $s0, $zero, 100
+loop:
+	addi $s0, $s0, -1
+	bne $s0, $zero, loop
+exit:

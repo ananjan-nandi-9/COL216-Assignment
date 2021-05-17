@@ -1,0 +1,5 @@
+main:
+	add $s0, $zero, $zero
+	add $s0, $s0, $zero
+	sw $s0, -4($zero)
+exit:

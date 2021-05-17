@@ -1,0 +1,1 @@
+Checks that if some cores have invalid inputs, then others won't stop

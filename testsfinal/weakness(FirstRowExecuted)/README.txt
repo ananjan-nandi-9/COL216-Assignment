@@ -1,0 +1,1 @@
+When a core is selected, we execute the requests corresponding to the first row in the queue. Could've done better.

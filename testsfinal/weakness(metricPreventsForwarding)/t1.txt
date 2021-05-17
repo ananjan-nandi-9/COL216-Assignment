@@ -1,0 +1,9 @@
+main:
+	addi $s0, $s0, 20
+loop:
+	addi $s0, $s0, -1
+	lw $t0, 1000($zero)
+	sw $t0, 2000($zero)
+	addi $t1, $t0, 0
+	bne $s0, $zero, loop
+exit:

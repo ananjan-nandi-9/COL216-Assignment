@@ -1,0 +1,1 @@
+checks lw-sw non-blocking,blocking and forwarding constraints

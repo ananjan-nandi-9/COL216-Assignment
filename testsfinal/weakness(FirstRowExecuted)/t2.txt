@@ -1,0 +1,10 @@
+main:
+	lw $s0, 2000($zero)
+	sw $t0, 1000($zero)
+	sw $t2, 1000($zero)
+	sw $t3, 1000($zero)
+	sw $t4, 1000($zero)
+	sw $t5, 1000($zero)
+	sw $t6, 1000($zero)
+	lw $t1, 2000($zero)
+exit:

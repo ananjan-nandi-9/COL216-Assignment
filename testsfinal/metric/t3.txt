@@ -1,0 +1,5 @@
+main:
+	addi $s2, $zero, 100
+	lw $s3, 1000($zero)
+	addi $s0, $s1, 100
+exit:
