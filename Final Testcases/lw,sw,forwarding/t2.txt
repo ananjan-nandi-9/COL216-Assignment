@@ -1,6 +1,0 @@
-main:
-	addi $t1, $t1, 2
-	sw $t1, 5000($zero)
-	sw $t1, 5000($zero)
-	lw $t1, 5000($zero)
-exit:

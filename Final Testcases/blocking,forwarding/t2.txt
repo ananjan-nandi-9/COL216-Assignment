@@ -1,6 +1,0 @@
-main:
-	addi $s0, $zero, 200
-	addi $s0, $s0, 0
-	sw $s0, 1000($zero)
-	lw $s1, 1000($zero)
-exit:

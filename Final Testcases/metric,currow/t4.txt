@@ -1,4 +1,0 @@
-main:
-	lw $s0, 1000($zero)
-	addi $s0, $zero, 1
-exit:
