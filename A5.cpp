@@ -434,12 +434,13 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (found) {
-        if (isdigit(temp[0]) || temp[0] == '(') {
+        if (isdigit(temp[0]) || temp[0] == '(' || temp[0]=='-') {
+            if(temp[0]=='-') curr=1;
             while (curr < temp.size() && isdigit(temp[curr])) {
                 curr++;
             }
             if (curr == temp.size() || temp[curr] != '(' || temp[temp.size() - 1] != ')') {
-                cout << "Syntax error, instruction: " << line[i] << '\n';
+                cout <<"Syntax error, instruction: " << line[i] << '\n';
                 e[i]=true;
 		return line[i];
             } else {
@@ -452,7 +453,7 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
             }
             int offset = str2intc(v[1].substr(0, curr), line[i], i);
             int val = offset + reg[i][temp];
-            if (val > pow(2, 20) / N || val < 0) {
+            if (val > 1024*(1024 / N) || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
                 e[i]=true;
 		return line[i];
@@ -464,7 +465,8 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
             }
             temp = to_string(val);
         } else {
-            cout << "Syntax error, instruction: " << line[i] << '\n';
+
+            cout <<"Syntax error, instruction: " << line[i] << '\n';
         }
     }
     if (!found) {
@@ -478,6 +480,15 @@ int executelw(vector < string > v, vector < int > line, int i) { //added
     val += i * (1024 / N)*1024;
     int row = val / 1024;
     int column = val - (1024 * row);
+    int a=1024/N * i, b=1024/N * (i+1);
+    if(row>=b || row<a)
+    {
+            cout << "Out of Memory, error in instruction: " << line[i] << '\n';
+            e[i]=true;
+	    return line[i];
+
+    }
+
     if (e[i]) return line[i];
     reg[i][v[0]] = str2intc(dram[row][column], line[i], i);
     v[1] = to_string(val);
@@ -535,7 +546,8 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
         }
     }
     if (found) {
-        if (isdigit(temp[0]) || temp[0] == '(') {
+        if (isdigit(temp[0]) || temp[0] == '(' || temp[0]=='-') {
+            if(temp[0]=='-') curr=1;
             while (curr < temp.size() && isdigit(temp[curr])) {
                 curr++;
             }
@@ -553,7 +565,7 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
             }
             int offset = str2intc(v[1].substr(0, curr), line[i], i);
             int val = offset + reg[i][temp];
-            if (val > pow(2, 20) / N || val < 0) {
+            if (val > 1024*(1024 / N) || val < 0) {
                 cout << "Out of Memory, error in instruction: " << line[i] << '\n';
                 e[i]=true;
 		return line[i];
@@ -579,6 +591,14 @@ int executesw(vector < string > v, vector < int > line, int i) { //added
     val += i * (1024 / N) * 1024;
     int row = val / 1024;
     int column = val - (1024 * row);
+    int a=1024/N * i, b=1024/N * (i+1);
+    if(row>=b || row<a)
+    {
+            cout << "Out of Memory, error in instruction: " << line[i] << '\n';
+            e[i]=true;
+	    return line[i];
+
+    }
     if (e[i]) return line[i];
     dram[row][column] = to_string(reg[i][v[0]]);
     v[1] = to_string(val);
@@ -625,8 +645,8 @@ void execute() //changed
                 	{
                     	for(int cc=0;cc<N;++cc)
                     	{
-                        	if(requests[cc].size()==0) continue;
-                        	int ccur=order[cc];
+                            int ccur=order[cc];
+                        	if(requests[ccur].size()==0) continue;
                         	if(isblock[ccur]!="-")
                         	{
                             	curexc=ccur;
